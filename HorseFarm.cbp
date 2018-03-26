@@ -30,6 +30,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-fPIC" />
 			<Add directory="include" />
 			<Add directory="/Arch/include" />
 			<Add directory="/usr/include/freetype2" />
@@ -45,7 +46,7 @@
 			<Add directory="/Arch/lib64" />
 			<Add directory="/usr/lib64" />
 			<Add directory="/usr/lib/x86_64-linux-gnu" />
-			<Add directory="lib" />
+			<Add directory="lib64" />
 		</Linker>
 		<Unit filename="src/api/camera.cc" />
 		<Unit filename="src/api/camera.h" />
@@ -61,8 +62,6 @@
 		<Unit filename="src/api/texture.h" />
 		<Unit filename="src/api/window.cc" />
 		<Unit filename="src/api/window.h" />
-		<Unit filename="src/drawable.cc" />
-		<Unit filename="src/drawable.h" />
 		<Unit filename="src/farm.cc" />
 		<Unit filename="src/farm.h" />
 		<Unit filename="src/horse.cc" />
