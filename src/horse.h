@@ -58,15 +58,6 @@ struct HorseDimension
 class Horse
 {
 public:
-    Horse(Shader& shader);
-    ~Horse();
-    // Initialize game state (load all shaders/textures/levels)
-    void Draw();
-
-private:
-    glm::vec4 color;
-    unsigned int NumVertices = 36;
-
     double base_scale = 1.0f;
 
     float base_x = 0.0;
@@ -76,6 +67,15 @@ private:
     double rotateX = 0.0;
     double rotateY = 0.0;
     double rotateZ = 0.0;
+
+    Horse(Shader& shader);
+    ~Horse();
+    // Initialize game state (load all shaders/textures/levels)
+    void Draw();
+
+private:
+    glm::vec4 color;
+    unsigned int NumVertices = 36;
 
     GLuint quadVAO_;
     Shader shader_;
@@ -99,11 +99,15 @@ private:
 
     void BuildModel()
     {
+        glm::mat4 baseScale = glm::scale(glm::mat4(1.0), glm::vec3(base_scale, base_scale, base_scale));
+
         glm::mat4 torsoModel = glm::translate(glm::mat4(1.0), glm::vec3(base_x, base_y + 1.9*horse_dimension_.kTorsoHeight, base_z)) * RotateX(rotateX) * RotateY(rotateY) * RotateZ(rotateZ + theta[Torso]);
         //nodes[Torso] = Node(m, torso, NULL, &nodes[Neck]);
         glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.5f * horse_dimension_.kTorsoHeight, 0.0f));
         glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kTorsoWidth, horse_dimension_.kTorsoHeight, horse_dimension_.kTorsoDepth));
         //glUniformMatrix4fv(glGetUniformLocation(shader_, "model"), 1, GL_FALSE, value_ptr(base_model * translate * scale));
+
+        torsoModel = baseScale * torsoModel;
         shader_.SetMatrix4("model", torsoModel * translate * scale);
         glDrawArrays(GL_TRIANGLES, 0, NumVertices);
 

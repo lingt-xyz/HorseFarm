@@ -42,6 +42,7 @@ void HorseFarm::Init()
 
     Shader shader_horse = ResourceManager::GetShader("horse");
     this->horse_ = new Horse(shader_horse);
+    Controller::horse_ = this->horse_;
 
     Texture2D texture = ResourceManager::GetTexture("grass");
 }

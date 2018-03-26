@@ -23,6 +23,8 @@ bool Controller::light_on = false;
 bool Controller::texture_on = false;
 bool Controller::shadow_on = false;
 
+Horse* Controller::horse_;
+
 Controller::Controller(){}
 Controller::~Controller(){}
 

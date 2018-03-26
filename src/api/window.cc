@@ -95,8 +95,9 @@ void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, 
     }
     if (key >= 0 && key < 1024)
     {
-        if (action == GLFW_PRESS || action == GLFW_REPEAT)
+        if (action == GLFW_PRESS)
         {
+            Input::KeysProcessed[key] = GL_FALSE;
             Input::Keys[key] = GL_TRUE;
         }
         else if (action == GLFW_RELEASE)

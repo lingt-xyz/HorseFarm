@@ -1,3 +1,5 @@
+#include "helper.h"
+
 #include "input.h"
 #include "../controller.h"
 
@@ -10,6 +12,35 @@ std::map<int, bool> Input::keyHeld;
 
 void Input::ProcessInput(GLfloat dt)
 {
+    //Pressing the spacebar should re-position the horse at a random location on the grid
+    if(Input::Keys[GLFW_KEY_SPACE] && !Input::KeysProcessed[GLFW_KEY_SPACE])
+    {
+        Input::KeysProcessed[GLFW_KEY_SPACE] = true;
+        if(getRandomBool())
+        {
+            Controller::horse_->base_x = getRandomFromRange(25);
+            Controller::horse_->base_z = getRandomFromRange(25);
+        }
+        else
+        {
+            Controller::horse_->base_x = -getRandomFromRange(25);
+            Controller::horse_->base_z = -getRandomFromRange(25);
+        }
+    }
+    //pressing ‘U’ for scale-up and ‘J’ for scale-down
+    else if (Input::Keys[GLFW_KEY_U])
+    {
+        Controller::horse_->base_scale += 0.01f;
+
+    }
+    else if (Input::Keys[GLFW_KEY_J])
+    {
+        if(Controller::horse_->base_scale >= 0.01)
+        {
+            Controller::horse_->base_scale -= 0.01f;
+        }
+    }
+
     if (Input::Keys[GLFW_KEY_LEFT])
     {
         Controller::c_horizontal += 1.0f;
