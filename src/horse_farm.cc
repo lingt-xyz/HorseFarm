@@ -28,18 +28,20 @@ void HorseFarm::Init()
 {
     // Load shaders
     ResourceManager::LoadShader("shaders/simple.vs", "shaders/simple.fs", nullptr, "simple");
+    ResourceManager::LoadShader("shaders/horse.vs", "shaders/horse.fs", nullptr, "horse");
 
     // Load textures
     ResourceManager::LoadTexture("textures/grass.jpg", GL_FALSE, "grass");
 
     Shader shader_simple = ResourceManager::GetShader("simple");
-    shader_simple.Use();
 
     this->axis_ = new Axis(shader_simple);
     this->grid_ = new Grid(shader_simple);
     this->lamp_ = new Lamp(shader_simple);
     this->farm_ = new Farm(shader_simple);
-    this->horse_ = new Horse(shader_simple);
+
+    Shader shader_horse = ResourceManager::GetShader("horse");
+    this->horse_ = new Horse(shader_horse);
 
     Texture2D texture = ResourceManager::GetTexture("grass");
 }

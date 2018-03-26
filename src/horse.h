@@ -64,6 +64,7 @@ public:
     void Draw();
 
 private:
+    glm::vec4 color;
     unsigned int NumVertices = 36;
 
     double base_scale = 1.0f;

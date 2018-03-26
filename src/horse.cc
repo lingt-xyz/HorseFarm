@@ -1,3 +1,5 @@
+#include "helper.h"
+
 #include "horse.h"
 #include "controller.h"
 
@@ -46,6 +48,8 @@ Horse::Horse(Shader& shader)
 {
     this->shader_ = shader;
 
+    color = glm::vec4(getRandomFloat(), getRandomFloat(), getRandomFloat(), 1.0f);
+
     GLuint VBO;
 
     glGenVertexArrays(1.0, &this->quadVAO_);
@@ -74,6 +78,8 @@ Horse::~Horse()
 void Horse::Draw()
 {
     this->shader_.Use();
+
+    this->shader_.SetVector4f("aColor", color);
     this->shader_.SetMatrix4("projection", Controller::projection);
     this->shader_.SetMatrix4("view", Controller::view);
     glm::mat4 model = glm::mat4(1.0f);
