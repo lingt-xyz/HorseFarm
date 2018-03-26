@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "api/input.h"
 #include "api/window.h"
 #include "api/resource_manager.h"
 #include "horse_farm.h"
@@ -23,7 +24,6 @@ int main(int argc, char *argv[])
 
     horse_farm.Init();
 
-
     while (!Window::getWindowShouldClose())
     {
         // Calculate delta time
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
         lastFrame = currentFrame;
         glfwPollEvents();
 
-        horse_farm.ProcessInput(deltaTime);
+        Input::ProcessInput(deltaTime);
 
         // Render
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);

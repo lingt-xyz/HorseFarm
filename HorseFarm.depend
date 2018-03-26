@@ -1032,11 +1032,14 @@
 	"../trigonometric.hpp"
 	"../matrix.hpp"
 
-1522032990 source:/home/ling/git/HorseFarm/src/api/input.cc
+1522047914 source:/home/ling/git/HorseFarm/src/api/input.cc
 	"input.h"
+	"../controller.h"
 
-1522032990 /home/ling/git/HorseFarm/src/api/input.h
+1522047892 /home/ling/git/HorseFarm/src/api/input.h
 	<map>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
 
 1522032990 source:/home/ling/git/HorseFarm/src/api/resource_manager.cc
 	"resource_manager.h"
@@ -1124,7 +1127,7 @@
 	<iostream>
 	"texture.h"
 
-1522047126 source:/home/ling/git/HorseFarm/src/api/window.cc
+1522047564 source:/home/ling/git/HorseFarm/src/api/window.cc
 	"window.h"
 	<iostream>
 	"input.h"
@@ -1175,7 +1178,7 @@
 	"horse_farm.h"
 	"controller.h"
 
-1522046265 /home/ling/git/HorseFarm/src/horse_farm.h
+1522047825 /home/ling/git/HorseFarm/src/horse_farm.h
 	<vector>
 	<tuple>
 	<GL/glew.h>
@@ -1192,7 +1195,7 @@
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 
-1522046966 source:/home/ling/git/HorseFarm/src/horse_farm.cc
+1522047848 source:/home/ling/git/HorseFarm/src/horse_farm.cc
 	"iostream"
 	"api/camera.h"
 	"api/resource_manager.h"
@@ -1258,7 +1261,7 @@
 
 1522044219 /home/ling/git/HorseFarm/src/config.h
 
-1522045649 /home/ling/git/HorseFarm/src/controller.h
+1522047478 /home/ling/git/HorseFarm/src/controller.h
 	<string>
 	<GL/glew.h>
 	<GLFW/glfw3.h>
@@ -1267,7 +1270,7 @@
 	<glm/gtx/transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 
-1522045747 source:/home/ling/git/HorseFarm/src/controller.cc
+1522047486 source:/home/ling/git/HorseFarm/src/controller.cc
 	"controller.h"
 	"api/window.h"
 

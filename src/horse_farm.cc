@@ -58,32 +58,3 @@ void HorseFarm::Render()
     lamp_->Draw();
 
 }
-
-void HorseFarm::ProcessInput(GLfloat dt)
-{
-
-    if (Input::Keys[GLFW_KEY_LEFT])
-    {
-        Controller::c_horizontal += 1.0f;
-    }
-    else if (Input::Keys[GLFW_KEY_RIGHT])
-    {
-        Controller::c_horizontal -= 1.0f;
-    }
-    else if (Input::Keys[GLFW_KEY_UP])
-    {
-        Controller::c_vertical += 1.0f;
-        if(Controller::c_vertical >= 90.0)
-        {
-            Controller::c_vertical = 89.0f;
-        }
-    }
-    else if (Input::Keys[GLFW_KEY_DOWN])
-    {
-        Controller::c_vertical -= 1.0f;
-        if(Controller::c_vertical < 0)
-        {
-            Controller::c_vertical = 0.0f;
-        }
-    }
-}
