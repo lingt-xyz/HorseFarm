@@ -32,13 +32,6 @@ int main(int argc, char *argv[])
         lastFrame = currentFrame;
         glfwPollEvents();
 
-        //deltaTime = 0.001f;
-        // Manage user input
-        //Breakout.ProcessInput(deltaTime);
-
-        // Update Game state
-        //Breakout.Update(deltaTime);
-
         // Render
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

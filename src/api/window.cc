@@ -6,7 +6,7 @@
 #include "resource_manager.h"
 
 int Window::width = 800;
-int Window::height = 600;
+int Window::height = 800;
 std::string Window::title = "GLFW";
 GLFWwindow* Window::window;
 
@@ -15,6 +15,7 @@ Window::Window()
 	initWindow();
 
 	glfwMakeContextCurrent(window);
+	glfwSetWindowSizeCallback(window, Window::sizeCallback);
 	glfwSetKeyCallback(window, Window::keyCallback);
 }
 
@@ -27,6 +28,7 @@ Window::Window(int width, int height, std::string title)
 	initWindow();
 
 	glfwMakeContextCurrent(window);
+	glfwSetWindowSizeCallback(window, Window::sizeCallback);
 	glfwSetKeyCallback(window, Window::keyCallback);
 }
 
@@ -58,11 +60,8 @@ void Window::initWindow()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	Window::window = glfwCreateWindow(Window::width, Window::height, Window::title.c_str(),
-		nullptr, nullptr);
+	Window::window = glfwCreateWindow(Window::width, Window::height, Window::title.c_str(), nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	// init glew
@@ -77,9 +76,9 @@ void Window::initWindow()
 	int width, height;
 	glfwGetFramebufferSize(Window::window, &width, &height);
 	glViewport(0, 0, width, height);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_CULL_FACE);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -93,4 +92,11 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
         else if (action == GLFW_RELEASE)
             Input::Keys[key] = GL_FALSE;
 	}
+}
+
+void Window::sizeCallback(GLFWwindow* window, int width, int height)
+{
+    Window::width = width;
+	Window::height = height;
+    glViewport(0, 0, width, height);
 }

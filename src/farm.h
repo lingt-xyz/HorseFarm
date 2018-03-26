@@ -6,9 +6,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "drawable.h"
 
-class Farm : public Drawable
+class Farm
 {
 public:
 
