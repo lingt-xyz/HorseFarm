@@ -1170,9 +1170,10 @@
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 
-1522046244 source:/home/ling/git/HorseFarm/src/main.cc
+1522047928 source:/home/ling/git/HorseFarm/src/main.cc
 	<GL/glew.h>
 	<GLFW/glfw3.h>
+	"api/input.h"
 	"api/window.h"
 	"api/resource_manager.h"
 	"horse_farm.h"
@@ -1189,11 +1190,12 @@
 	"farm.h"
 	"horse.h"
 
-1522040261 /home/ling/git/HorseFarm/src/horse.h
+1522048161 /home/ling/git/HorseFarm/src/horse.h
 	<vector>
 	<tuple>
 	<GL/glew.h>
 	<GLFW/glfw3.h>
+	"api/shader.h"
 
 1522047848 source:/home/ling/git/HorseFarm/src/horse_farm.cc
 	"iostream"
