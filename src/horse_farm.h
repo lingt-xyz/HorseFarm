@@ -29,6 +29,7 @@ public:
 
     void Render();
 
+    void ProcessInput(GLfloat dt);
 private:
     GLuint width_;
     GLuint height_;

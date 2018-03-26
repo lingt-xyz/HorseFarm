@@ -5,7 +5,7 @@
 #include "api/window.h"
 #include "api/resource_manager.h"
 #include "horse_farm.h"
-
+#include "controller.h"
 
 const GLuint SCREEN_WIDTH = 800;
 const GLuint SCREEN_HEIGHT = 600;
@@ -32,9 +32,13 @@ int main(int argc, char *argv[])
         lastFrame = currentFrame;
         glfwPollEvents();
 
+        horse_farm.ProcessInput(deltaTime);
+
         // Render
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        Controller::UpdateController();
         horse_farm.Render();
 
         Window::swapBuffers();

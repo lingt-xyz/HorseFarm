@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "grid.h"
+#include "controller.h"
 
 const GLfloat vertices[] =
 {
@@ -46,6 +47,8 @@ Grid::~Grid(){
 
 void Grid::Draw(){
     this->shader_.Use();
+    this->shader_.SetMatrix4("projection", Controller::projection);
+    this->shader_.SetMatrix4("view", Controller::view);
     this->shader_.SetMatrix4("model", glm::mat4(1.0f));
 
     glBindVertexArray(this->quadVAO_);

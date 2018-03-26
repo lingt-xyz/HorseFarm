@@ -4,22 +4,21 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "lamp.h"
-
-glm::vec3 light_pos(0.0f, 20.0f, 0.0f);
+#include "controller.h"
 
 const GLfloat vertices[] =
 {
     -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
 
     -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
 
@@ -30,30 +29,31 @@ const GLfloat vertices[] =
     -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
 
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
 
     -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
 
     -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+    0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
     -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
 };
 
-Lamp::Lamp(Shader& shader){
-
+Lamp::Lamp(Shader& shader)
+{
+    light_position_ = Controller::light_position_;
     this->shader_ = shader;
 
     GLuint VBO;
@@ -73,13 +73,17 @@ Lamp::Lamp(Shader& shader){
     glBindVertexArray(0);
 }
 
-Lamp::~Lamp(){
+Lamp::~Lamp()
+{
 }
 
-void Lamp::Draw(){
+void Lamp::Draw()
+{
     this->shader_.Use();
+    this->shader_.SetMatrix4("projection", Controller::projection);
+    this->shader_.SetMatrix4("view", Controller::view);
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, light_pos);
+    model = glm::translate(model, light_position_);
     model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
     this->shader_.SetMatrix4("model", model);
 

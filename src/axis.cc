@@ -4,33 +4,34 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "axis.h"
-
+#include "controller.h"
 
 const GLfloat vertices[] =
 {
-     0.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-     5.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-     5.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-     4.5f, 0.0f,  0.2f, 1.0f, 0.0f, 0.0f, 1.0f,
-     5.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-     4.5f, 0.0f, -0.2f, 1.0f, 0.0f, 0.0f, 1.0f,
+    0.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    5.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    5.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    4.5f, 0.0f,  0.2f, 1.0f, 0.0f, 0.0f, 1.0f,
+    5.0f, 0.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    4.5f, 0.0f, -0.2f, 1.0f, 0.0f, 0.0f, 1.0f,
 
-     0.0f, 0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-     0.0f, 5.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-     0.0f, 5.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-     0.2f, 4.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-     0.0f, 5.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    0.0f, 0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    0.0f, 5.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    0.0f, 5.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    0.2f, 4.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    0.0f, 5.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
     -0.2f, 4.5f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
 
-     0.0f, 0.0f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-     0.0f, 0.0f,  5.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-     0.0f, 0.0f,  5.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-     0.2f, 0.0f,  4.5f, 0.0f, 0.0f, 1.0f, 1.0f,
-     0.0f, 0.0f,  5.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+    0.0f, 0.0f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+    0.0f, 0.0f,  5.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+    0.0f, 0.0f,  5.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+    0.2f, 0.0f,  4.5f, 0.0f, 0.0f, 1.0f, 1.0f,
+    0.0f, 0.0f,  5.0f, 0.0f, 0.0f, 1.0f, 1.0f,
     -0.2f, 0.0f,  4.5f, 0.0f, 0.0f, 1.0f, 1.0f,
 };
 
-Axis::Axis(Shader& shader){
+Axis::Axis(Shader& shader)
+{
 
     this->shader_ = shader;
 
@@ -51,11 +52,15 @@ Axis::Axis(Shader& shader){
     glBindVertexArray(0);
 }
 
-Axis::~Axis(){
+Axis::~Axis()
+{
 }
 
-void Axis::Draw(){
+void Axis::Draw()
+{
     this->shader_.Use();
+    this->shader_.SetMatrix4("projection", Controller::projection);
+    this->shader_.SetMatrix4("view", Controller::view);
     this->shader_.SetMatrix4("model", glm::mat4(1.0f));
 
     glBindVertexArray(this->quadVAO_);

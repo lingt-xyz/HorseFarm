@@ -22,7 +22,10 @@ public:
 
 private:
 	static GLFWwindow* window;
-	static void initWindow();
-	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
-	static void sizeCallback(GLFWwindow* window, int width, int height);
+	static void InitWindow();
+	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+	static void SizeCallback(GLFWwindow* window, int width, int height);
+
+	static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
+    static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 };

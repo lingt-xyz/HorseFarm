@@ -2,6 +2,8 @@
 #include "api/camera.h"
 #include "api/resource_manager.h"
 #include "api/text_renderer.h"
+#include "api/input.h"
+#include "controller.h"
 #include "horse_farm.h"
 
 
@@ -34,26 +36,54 @@ void HorseFarm::Init()
     // Configure shaders
     //Camera camera(glm::vec3(0.0f, 20.0f, 10.0f));
     //glm::mat4 view = camera.GetViewMatrix();
-    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 10.0f, 30.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
     // glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->width_), static_cast<GLfloat>(this->height_), 0.0f, 1.0f, 100.0f);
     float near_plane = 1.0f, far_plane = 100.0f;
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)(this->width_) / (GLfloat)(this->height_), near_plane, far_plane);
+
+
     Shader shader_simple = ResourceManager::GetShader("simple");
     shader_simple.Use();
-    shader_simple.SetMatrix4("view", view);
-    shader_simple.SetMatrix4("projection", projection);
+
     this->grid_ = new Grid(shader_simple);
     this->axis_ = new Axis(shader_simple);
     this->lamp_ = new Lamp(shader_simple);
 
+    Texture2D texture = ResourceManager::GetTexture("grass");
 }
 
 void HorseFarm::Render()
 {
-    Texture2D texture = ResourceManager::GetTexture("grass");
-
     grid_->Draw();
     axis_->Draw();
     lamp_->Draw();
 
+}
+
+void HorseFarm::ProcessInput(GLfloat dt)
+{
+
+    if (Input::Keys[GLFW_KEY_LEFT])
+    {
+        Controller::c_horizontal += 1.0f;
+    }
+    else if (Input::Keys[GLFW_KEY_RIGHT])
+    {
+        Controller::c_horizontal -= 1.0f;
+    }
+    else if (Input::Keys[GLFW_KEY_UP])
+    {
+        Controller::c_vertical += 1.0f;
+        if(Controller::c_vertical >= 90.0)
+        {
+            Controller::c_vertical = 89.0f;
+        }
+    }
+    else if (Input::Keys[GLFW_KEY_DOWN])
+    {
+        Controller::c_vertical -= 1.0f;
+        if(Controller::c_vertical < 0)
+        {
+            Controller::c_vertical = 0.0f;
+        }
+    }
 }

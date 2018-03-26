@@ -20,4 +20,5 @@ public:
 private:
     GLuint quadVAO_;
     Shader shader_;
+    glm::vec3 light_position_;
 };
