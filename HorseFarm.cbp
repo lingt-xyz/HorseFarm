@@ -62,15 +62,21 @@
 		<Unit filename="src/api/texture.h" />
 		<Unit filename="src/api/window.cc" />
 		<Unit filename="src/api/window.h" />
+		<Unit filename="src/axis.cc" />
+		<Unit filename="src/axis.h" />
+		<Unit filename="src/controller.cc" />
+		<Unit filename="src/controller.h" />
 		<Unit filename="src/farm.cc" />
 		<Unit filename="src/farm.h" />
+		<Unit filename="src/gird.cc" />
+		<Unit filename="src/grid.h" />
 		<Unit filename="src/horse.cc" />
 		<Unit filename="src/horse.h" />
 		<Unit filename="src/horse_farm.cc" />
 		<Unit filename="src/horse_farm.h" />
+		<Unit filename="src/lamp.cc" />
+		<Unit filename="src/lamp.h" />
 		<Unit filename="src/main.cc" />
-		<Unit filename="src/sprite_renderer.cc" />
-		<Unit filename="src/sprite_renderer.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
