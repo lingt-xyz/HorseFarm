@@ -579,15 +579,11 @@
 	<GLFW/glfw3.h>
 	"api/shader.h"
 
-1522082180 source:/nfs/home/t/ta_li/git/HorseFarm/src/horse.cc
-	<glm/glm.hpp>
-	<glm/gtc/matrix_transform.hpp>
-	<glm/gtx/transform.hpp>
-	<glm/gtc/type_ptr.hpp>
+1522094395 source:/nfs/home/t/ta_li/git/HorseFarm/src/horse.cc
 	"horse.h"
 	"controller.h"
 
-1522082240 source:/nfs/home/t/ta_li/git/HorseFarm/src/horse_farm.cc
+1522094380 source:/nfs/home/t/ta_li/git/HorseFarm/src/horse_farm.cc
 	"iostream"
 	"api/camera.h"
 	"api/resource_manager.h"
@@ -614,11 +610,15 @@
 	"farm.h"
 	"horse.h"
 
-1522082609 /nfs/home/t/ta_li/git/HorseFarm/src/horse.h
+1522095557 /nfs/home/t/ta_li/git/HorseFarm/src/horse.h
 	<vector>
 	<tuple>
 	<GL/glew.h>
 	<GLFW/glfw3.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform.hpp>
+	<glm/gtc/type_ptr.hpp>
 	"api/shader.h"
 
 1522079545 source:/nfs/home/t/ta_li/git/HorseFarm/src/main.cc
@@ -1371,4 +1371,10 @@
 	<glm/gtc/type_ptr.hpp>
 	"lamp.h"
 	"controller.h"
+
+1522093153 /nfs/home/t/ta_li/git/HorseFarm/src/node.h
+	"horse.h"
+
+1522080851 /nfs/home/t/ta_li/git/HorseFarm/include/matrix_stack.h
+	<assert.h>
 
