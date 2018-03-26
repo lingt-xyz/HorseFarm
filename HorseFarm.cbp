@@ -47,7 +47,31 @@
 			<Add directory="/usr/lib/x86_64-linux-gnu" />
 			<Add directory="lib" />
 		</Linker>
-		<Unit filename="src/Main.cpp" />
+		<Unit filename="src/api/camera.cc" />
+		<Unit filename="src/api/camera.h" />
+		<Unit filename="src/api/input.cc" />
+		<Unit filename="src/api/input.h" />
+		<Unit filename="src/api/resource_manager.cc" />
+		<Unit filename="src/api/resource_manager.h" />
+		<Unit filename="src/api/shader.cc" />
+		<Unit filename="src/api/shader.h" />
+		<Unit filename="src/api/sprite_renderer.cc" />
+		<Unit filename="src/api/sprite_renderer.h" />
+		<Unit filename="src/api/text_renderer.cc" />
+		<Unit filename="src/api/text_renderer.h" />
+		<Unit filename="src/api/texture.cc" />
+		<Unit filename="src/api/texture.h" />
+		<Unit filename="src/api/window.cc" />
+		<Unit filename="src/api/window.h" />
+		<Unit filename="src/farm.cc" />
+		<Unit filename="src/farm.h" />
+		<Unit filename="src/game_object.cc" />
+		<Unit filename="src/game_object.h" />
+		<Unit filename="src/horse.cc" />
+		<Unit filename="src/horse.h" />
+		<Unit filename="src/horse_farm.cc" />
+		<Unit filename="src/horse_farm.h" />
+		<Unit filename="src/main.cc" />
 		<Extensions>
 			<code_completion />
 			<debugger />

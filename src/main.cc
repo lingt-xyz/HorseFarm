@@ -11,22 +11,22 @@ const GLuint SCREEN_WIDTH = 800;
 // The height of the screen
 const GLuint SCREEN_HEIGHT = 600;
 
-Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
+//Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 int main(int argc, char *argv[])
 {
     // create window
 	Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Breakout");
 
-    // Initialize game
-    Breakout.Init();
-
     // DeltaTime variables
     GLfloat deltaTime = 0.0f;
     GLfloat lastFrame = 0.0f;
 
+    // Initialize game
+    //Breakout.Init();
+
     // Start Game within Menu State
-    Breakout.State = GAME_MENU;
+    //Breakout.State = GAME_MENU;
 
     while (!Window::getWindowShouldClose())
     {
@@ -38,15 +38,15 @@ int main(int argc, char *argv[])
 
         //deltaTime = 0.001f;
         // Manage user input
-        Breakout.ProcessInput(deltaTime);
+        //Breakout.ProcessInput(deltaTime);
 
         // Update Game state
-        Breakout.Update(deltaTime);
+        //Breakout.Update(deltaTime);
 
         // Render
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        Breakout.Render();
+        //Breakout.Render();
 
         Window::swapBuffers();
     }
