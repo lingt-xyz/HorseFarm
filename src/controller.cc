@@ -19,8 +19,9 @@ glm::vec3 Controller::light_position_ = glm::vec3(0.0f, 20.0f, 0.0f);
 glm::mat4 Controller::view;
 glm::mat4 Controller::projection;
 
-bool texture_on = false;
-bool shadow_on = false;
+bool Controller::light_on = false;
+bool Controller::texture_on = false;
+bool Controller::shadow_on = false;
 
 Controller::Controller(){}
 Controller::~Controller(){}

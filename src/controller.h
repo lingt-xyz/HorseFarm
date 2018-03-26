@@ -31,6 +31,7 @@ public:
     static glm::mat4 view;
     static glm::mat4 projection;
 
+    static bool light_on;
     static bool texture_on;
     static bool shadow_on;
 

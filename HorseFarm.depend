@@ -1140,7 +1140,13 @@
 	<GLFW/glfw3.h>
 	<glm/glm.hpp>
 
-1522032990 source:/home/ling/git/HorseFarm/src/horse.cc
+1522048095 source:/home/ling/git/HorseFarm/src/horse.cc
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform.hpp>
+	<glm/gtc/type_ptr.hpp>
+	"horse.h"
+	"controller.h"
 
 1522039834 source:/home/ling/git/HorseFarm/src/drawable.cc
 	"drawable.h"
@@ -1158,17 +1164,20 @@
 	"api/texture.h"
 	"api/shader.h"
 
-1522032990 source:/home/ling/git/HorseFarm/src/farm.cc
-	<algorithm>
-	<sstream>
-	<iostream>
+1522049970 source:/home/ling/git/HorseFarm/src/farm.cc
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtx/transform.hpp>
+	<glm/gtc/type_ptr.hpp>
 	"farm.h"
+	"controller.h"
 
-1522040252 /home/ling/git/HorseFarm/src/farm.h
+1522048652 /home/ling/git/HorseFarm/src/farm.h
 	<vector>
 	<tuple>
 	<GL/glew.h>
 	<GLFW/glfw3.h>
+	"api/shader.h"
 
 1522047928 source:/home/ling/git/HorseFarm/src/main.cc
 	<GL/glew.h>
@@ -1179,7 +1188,7 @@
 	"horse_farm.h"
 	"controller.h"
 
-1522047825 /home/ling/git/HorseFarm/src/horse_farm.h
+1522048670 /home/ling/git/HorseFarm/src/horse_farm.h
 	<vector>
 	<tuple>
 	<GL/glew.h>
@@ -1197,7 +1206,7 @@
 	<GLFW/glfw3.h>
 	"api/shader.h"
 
-1522047848 source:/home/ling/git/HorseFarm/src/horse_farm.cc
+1522049996 source:/home/ling/git/HorseFarm/src/horse_farm.cc
 	"iostream"
 	"api/camera.h"
 	"api/resource_manager.h"
@@ -1246,7 +1255,7 @@
 	<GLFW/glfw3.h>
 	"api/shader.h"
 
-1522045966 source:/home/ling/git/HorseFarm/src/lamp.cc
+1522048451 source:/home/ling/git/HorseFarm/src/lamp.cc
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtx/transform.hpp>
@@ -1263,7 +1272,7 @@
 
 1522044219 /home/ling/git/HorseFarm/src/config.h
 
-1522047478 /home/ling/git/HorseFarm/src/controller.h
+1522048805 /home/ling/git/HorseFarm/src/controller.h
 	<string>
 	<GL/glew.h>
 	<GLFW/glfw3.h>
@@ -1272,7 +1281,7 @@
 	<glm/gtx/transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 
-1522047486 source:/home/ling/git/HorseFarm/src/controller.cc
+1522049270 source:/home/ling/git/HorseFarm/src/controller.cc
 	"controller.h"
 	"api/window.h"
 

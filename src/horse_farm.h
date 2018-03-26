@@ -17,8 +17,10 @@ class HorseFarm
 public:
     Grid* grid_;
     Axis* axis_;
-    Farm* farm_;
     Lamp* lamp_;
+    Farm* farm_;
+    Horse* horse_;
+
     //std::vector<Horse> vector_horse_;
 
     // Constructor/Destructor

@@ -6,14 +6,12 @@
 #include "controller.h"
 #include "horse_farm.h"
 
-
 TextRenderer *text_;
 
 HorseFarm::HorseFarm(GLuint width, GLuint height)
 {
     this->width_ = width;
     this->height_ = height;
-    //this->farm_ = new Farm(this->width_, this->height_);
 }
 
 HorseFarm::~HorseFarm()
@@ -23,6 +21,8 @@ HorseFarm::~HorseFarm()
     delete this->axis_;
     delete this->farm_;
     delete this->lamp_;
+    delete this->farm_;
+    delete this->horse_;
 }
 
 void HorseFarm::Init()
@@ -33,20 +33,28 @@ void HorseFarm::Init()
     // Load textures
     ResourceManager::LoadTexture("textures/grass.jpg", GL_FALSE, "grass");
 
-    // Configure shaders
-    //Camera camera(glm::vec3(0.0f, 20.0f, 10.0f));
-    //glm::mat4 view = camera.GetViewMatrix();
-
-    // glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->width_), static_cast<GLfloat>(this->height_), 0.0f, 1.0f, 100.0f);
-    float near_plane = 1.0f, far_plane = 100.0f;
-
-
     Shader shader_simple = ResourceManager::GetShader("simple");
     shader_simple.Use();
 
-    this->grid_ = new Grid(shader_simple);
+    Controller::shadow_on;
+    Controller::texture_on;
+
     this->axis_ = new Axis(shader_simple);
+    if(!Controller::light_on){
+        this->grid_ = new Grid(shader_simple);
+    }
     this->lamp_ = new Lamp(shader_simple);
+    //this->farm_ = new Farm(shader_simple);
+
+   // else{
+
+        //if(!Controller::texture_on)//{
+
+      // }
+    //}
+
+
+    this->horse_ = new Horse(shader_simple);
 
     Texture2D texture = ResourceManager::GetTexture("grass");
 }
@@ -56,5 +64,6 @@ void HorseFarm::Render()
     grid_->Draw();
     axis_->Draw();
     lamp_->Draw();
-
+    //farm_->Draw();
+    horse_->Draw();
 }

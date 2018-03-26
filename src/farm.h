@@ -5,20 +5,17 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
+#include "api/shader.h"
 
 class Farm
 {
 public:
-
-    Farm(GLuint width = 800, GLuint height = 800);
+    Farm(Shader& shader);
     ~Farm();
-    // Initialize game state (load all shaders/textures/levels)
-    void Init();
 
-    void Render();
+    void Draw();
 
 private:
-    GLuint width_;
-    GLuint height_;
+    GLuint quadVAO_;
+    Shader shader_;
 };
