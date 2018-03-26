@@ -4,10 +4,8 @@
 
 #include "farm.h"
 
-SpriteRenderer    *Renderer;
-TextRenderer      *Text;
 
-Farm::Farm()
+Farm::Farm(GLuint width, GLuint height):width_(width), height_(height)
 {
 
 }

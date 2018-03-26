@@ -4,29 +4,25 @@
 
 #include "api/window.h"
 #include "api/resource_manager.h"
+#include "horse_farm.h"
 
 
-// The Width of the screen
 const GLuint SCREEN_WIDTH = 800;
-// The height of the screen
 const GLuint SCREEN_HEIGHT = 600;
 
-//Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
+HorseFarm horse_farm(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 int main(int argc, char *argv[])
 {
     // create window
-	Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Breakout");
+	Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "HorseFarm");
 
     // DeltaTime variables
     GLfloat deltaTime = 0.0f;
     GLfloat lastFrame = 0.0f;
 
-    // Initialize game
-    //Breakout.Init();
+    horse_farm.Init();
 
-    // Start Game within Menu State
-    //Breakout.State = GAME_MENU;
 
     while (!Window::getWindowShouldClose())
     {
@@ -44,9 +40,9 @@ int main(int argc, char *argv[])
         //Breakout.Update(deltaTime);
 
         // Render
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        //Breakout.Render();
+        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        horse_farm.Render();
 
         Window::swapBuffers();
     }
