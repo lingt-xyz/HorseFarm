@@ -19,7 +19,6 @@ HorseFarm::~HorseFarm()
     delete text_;
     delete this->grid_;
     delete this->axis_;
-    delete this->farm_;
     delete this->lamp_;
     delete this->farm_;
     delete this->horse_;
@@ -36,24 +35,10 @@ void HorseFarm::Init()
     Shader shader_simple = ResourceManager::GetShader("simple");
     shader_simple.Use();
 
-    Controller::shadow_on;
-    Controller::texture_on;
-
     this->axis_ = new Axis(shader_simple);
-    if(!Controller::light_on){
-        this->grid_ = new Grid(shader_simple);
-    }
+    this->grid_ = new Grid(shader_simple);
     this->lamp_ = new Lamp(shader_simple);
-    //this->farm_ = new Farm(shader_simple);
-
-   // else{
-
-        //if(!Controller::texture_on)//{
-
-      // }
-    //}
-
-
+    this->farm_ = new Farm(shader_simple);
     this->horse_ = new Horse(shader_simple);
 
     Texture2D texture = ResourceManager::GetTexture("grass");
@@ -61,9 +46,26 @@ void HorseFarm::Init()
 
 void HorseFarm::Render()
 {
-    grid_->Draw();
-    axis_->Draw();
-    lamp_->Draw();
-    //farm_->Draw();
-    horse_->Draw();
+    if(!Controller::light_on){
+        grid_->Draw();
+        axis_->Draw();
+        horse_->Draw();
+    }else{
+        if(!Controller::texture_on){
+            lamp_->Draw();
+            farm_->Draw();
+            horse_->Draw();
+        }else{
+            if(!Controller::shadow_on){
+                lamp_->Draw();
+                farm_->Draw();
+                horse_->Draw();
+            }else{
+                lamp_->Draw();
+                farm_->Draw();
+                horse_->Draw();
+            }
+        }
+    }
+
 }
