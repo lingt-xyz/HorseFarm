@@ -171,4 +171,178 @@ void Input::ProcessInput(GLfloat dt)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
+
+    //Rotate joint 0 by 5 degrees (Key_0 clockwise and the corresponding Shift + Key_0 for counterclockwise
+    else if(Input::Keys[GLFW_KEY_0])
+    {
+        if(Input::KeysMode[GLFW_KEY_0] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[Head] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[Head] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_1])
+    {
+        if(Input::KeysMode[GLFW_KEY_1] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[Neck] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[Neck] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_2])
+    {
+        if(Input::KeysMode[GLFW_KEY_2] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[LeftUpperArm] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[LeftUpperArm] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_3])
+    {
+        if(Input::KeysMode[GLFW_KEY_3] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[LeftLowerArm] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[LeftLowerArm] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_4])
+    {
+        if(Input::KeysMode[GLFW_KEY_4] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[RightUpperArm] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[RightUpperArm] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_5])
+    {
+        if(Input::KeysMode[GLFW_KEY_5] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[RightLowerArm] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[RightLowerArm] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_6])
+    {
+        if(Input::KeysMode[GLFW_KEY_6] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[LeftUpperLeg] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[LeftUpperLeg] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_7])
+    {
+        if(Input::KeysMode[GLFW_KEY_7] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[LeftLowerLeg] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[LeftLowerLeg] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_8])
+    {
+        if(Input::KeysMode[GLFW_KEY_8] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[RightUpperLeg] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[RightUpperLeg] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_9])
+    {
+        if(Input::KeysMode[GLFW_KEY_9] == GLFW_MOD_SHIFT)
+        {
+            Controller::horse_->theta[RightLowerLeg] += 1.0;
+        }
+        else
+        {
+            Controller::horse_->theta[RightLowerLeg] -= 1.0;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_R])
+    {
+        if(Controller::horse_->run_on) // stop
+        {
+            Controller::horse_->run_on = false;
+        }
+        else
+        {
+            Controller::horse_->run_on = true;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_EQUAL] && Input::KeysMode[GLFW_KEY_EQUAL] == GLFW_MOD_SHIFT && !Input::KeysProcessed[GLFW_KEY_EQUAL])
+    {
+        Input::KeysProcessed[GLFW_KEY_EQUAL] = true;
+        --(Controller::horse_->speedDivision);
+        if(Controller::horse_->speedDivision < 1)
+        {
+            Controller::horse_->speedDivision = 1;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_MINUS] && Input::KeysMode[GLFW_KEY_MINUS] == GLFW_MOD_SHIFT && !Input::KeysProcessed[GLFW_KEY_MINUS])
+    {
+        Input::KeysProcessed[GLFW_KEY_MINUS] = true;
+        ++(Controller::horse_->speedDivision);
+    }
+    else if(Input::Keys[GLFW_KEY_N])//debug
+    {
+        Controller::horse_->run();
+        Controller::horse_->tmp_step += 1;
+        if(Controller::horse_->tmp_step > 6)
+        {
+            Controller::horse_->tmp_step = 1;
+        }
+    }
+    //Render the scene with grass texture on the ground mesh and horse-skin texture on the horse
+    else if(Input::Keys[GLFW_KEY_X])//debug
+    {
+        if(Controller::texture_on)
+        {
+            Controller::texture_on = false;
+            Controller::shadow_on = false;
+        }
+        else
+        {
+            Controller::texture_on = true;
+        }
+    }
+    //Render the scene with shadows using two pass shadow algorithm (Key B)
+    else if(Input::Keys[GLFW_KEY_B])//debug
+    {
+        if(Controller::texture_on)
+        {
+            if(Controller::shadow_on)
+            {
+                Controller::shadow_on = false;
+            }
+            else
+            {
+                Controller::shadow_on = true;
+            }
+        }
+    }
 }

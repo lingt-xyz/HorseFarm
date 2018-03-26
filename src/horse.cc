@@ -88,7 +88,18 @@ void Horse::Draw()
 
     glBindVertexArray(this->quadVAO_);
 
-    //glDrawArrays(GL_TRIANGLES, 0, 36);
+    if(run_on) // let's run
+    {
+        run();
+        ++tmp_time;
+        tmp_time %= (speedDivision+1);
+        tmp_step += (tmp_time / speedDivision);
+        if(tmp_step > 6)
+        {
+            tmp_step = 1;
+        }
+    }
+
     this->BuildModel();
 
     glBindVertexArray(0);

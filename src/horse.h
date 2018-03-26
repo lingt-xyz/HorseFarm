@@ -56,6 +56,14 @@ struct HorseDimension
 class Horse
 {
 public:
+
+    bool run_on = false;
+
+    int tmp_step = 1;
+    // to waste some frames to keep the horse run slowly
+    int tmp_time = 0;
+    int speedDivision = 10;
+
     double base_scale = 1.0f;
 
     float base_x = 0.0;
@@ -65,33 +73,6 @@ public:
     double rotateX = 0.0;
     double rotateY = 0.0;
     double rotateZ = 0.0;
-
-    Horse(Shader& shader);
-    ~Horse();
-
-    void Draw();
-
-    void ResetModel()
-    {
-        base_scale = 1.0f;
-
-        base_x = 0.0;
-        base_y = 0.0;
-        base_z = 0.0;
-
-        rotateX = 0.0;
-        rotateY = 0.0;
-        rotateZ = 0.0;
-    }
-
-private:
-    glm::vec4 color;
-    unsigned int NumVertices = 36;
-
-    GLuint quadVAO_;
-    Shader shader_;
-
-    HorseDimension horse_dimension_;
 
     GLfloat theta[11] =
     {
@@ -107,6 +88,129 @@ private:
         0.0,	// RightLowerLeg
         45.0	// Neck
     };
+
+    Horse(Shader& shader);
+    ~Horse();
+
+    void Draw();
+
+    void run()
+    {
+        switch(tmp_step)
+        {
+        case 1 :
+            theta[RightUpperLeg] = 150;
+            theta[RightLowerLeg] = 90;
+            theta[LeftUpperLeg] = 110;
+            theta[LeftLowerLeg] = 90;
+            theta[RightUpperArm] = 130;
+            theta[RightLowerArm] = -10;
+            theta[LeftUpperArm] = 150;
+            theta[LeftLowerArm] = -20;
+            theta[Neck] = 55;
+            theta[Torso] = 0;
+            break;
+        case 2 :
+            theta[RightUpperLeg] = 110;
+            theta[RightLowerLeg] = 90;
+            theta[LeftUpperLeg] = 110;
+            theta[LeftLowerLeg] = 50;
+            theta[RightUpperArm] = 170;
+            theta[RightLowerArm] = -10;
+            theta[LeftUpperArm] = 220;
+            theta[LeftLowerArm] = -20;
+            theta[Neck] = 45;
+            theta[Torso] = -5;
+            break;
+        case 3 :
+            theta[RightUpperLeg] = 120;
+            theta[RightLowerLeg] = 70;
+            theta[LeftUpperLeg] = 160;
+            theta[LeftLowerLeg] = 0;
+            theta[RightUpperArm] = 200;
+            theta[RightLowerArm] = -30;
+            theta[LeftUpperArm] = 250;
+            theta[LeftLowerArm] = -10;
+            theta[Neck] = 55;
+            theta[Torso] = -2;
+            break;
+        case 4 :
+            theta[RightUpperLeg] = 160;
+            theta[RightLowerLeg] = 0;
+            theta[LeftUpperLeg] = 190;
+            theta[LeftLowerLeg] = 0;
+            theta[RightUpperArm] = 220;
+            theta[RightLowerArm] = -20;
+            theta[LeftUpperArm] = 250;
+            theta[LeftLowerArm] = -70;
+            theta[Neck] = 45;
+            theta[Torso] = 2;
+            break;
+        case 5 :
+            theta[RightUpperLeg] = 190;
+            theta[RightLowerLeg] = 0;
+            theta[LeftUpperLeg] = 200;
+            theta[LeftLowerLeg] = 10;
+            theta[RightUpperArm] = 250;
+            theta[RightLowerArm] = -90;
+            theta[LeftUpperArm] = 230;
+            theta[LeftLowerArm] = -90;
+            theta[Neck] = 55;
+            theta[Torso] = 5;
+            break;
+        case 6 :
+            theta[RightUpperLeg] = 200;
+            theta[RightLowerLeg] = 20;
+            theta[LeftUpperLeg] = 170;
+            theta[LeftLowerLeg] = 80;
+            theta[RightUpperArm] = 210;
+            theta[RightLowerArm] = -90;
+            theta[LeftUpperArm] = 190;
+            theta[LeftLowerArm] = -80;
+            theta[Neck] = 55;
+            theta[Torso] = 2;
+            break;
+        }
+    }
+
+    void ResetModel()
+    {
+        base_scale = 1.0f;
+
+        base_x = 0.0;
+        base_y = 0.0;
+        base_z = 0.0;
+
+        rotateX = 0.0;
+        rotateY = 0.0;
+        rotateZ = 0.0;
+
+        tmp_step = 1;
+        tmp_time = 0;
+        speedDivision = 10;
+        run_on = false;
+
+        theta[Torso] = 0.0f;
+        theta[Head] = 80.0f;
+        theta[LeftUpperArm] = 190.0f;
+        theta[LeftLowerArm] = -10.0f;
+        theta[RightUpperArm] = 190.0f;
+        theta[RightLowerArm] = -10.0f;
+        theta[LeftUpperLeg] = 180.0f;
+        theta[LeftLowerLeg] = 0.0f;
+        theta[RightUpperLeg] = 180.0f;
+        theta[RightLowerLeg] = 0.0f;
+        theta[Neck] = 45.0f;
+    }
+
+private:
+    glm::vec4 color;
+    unsigned int NumVertices = 36;
+
+    GLuint quadVAO_;
+    Shader shader_;
+
+    HorseDimension horse_dimension_;
 
     void BuildModel()
     {
