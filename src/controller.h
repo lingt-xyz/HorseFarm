@@ -44,6 +44,7 @@ public:
 
     static void UpdateController();
 
+    static void ResetController();
 private:
 };
 

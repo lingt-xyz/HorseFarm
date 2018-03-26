@@ -13,7 +13,6 @@
 
 #include "api/shader.h"
 
-
 enum HorsePart
 {
     Torso = 0,
@@ -26,8 +25,7 @@ enum HorsePart
     LeftLowerLeg = 7,
     RightUpperLeg = 8,
     RightLowerLeg = 9,
-    Neck = 10,
-    NumNodes
+    Neck = 10
 };
 
 struct HorseDimension
@@ -70,8 +68,21 @@ public:
 
     Horse(Shader& shader);
     ~Horse();
-    // Initialize game state (load all shaders/textures/levels)
+
     void Draw();
+
+    void ResetModel()
+    {
+        base_scale = 1.0f;
+
+        base_x = 0.0;
+        base_y = 0.0;
+        base_z = 0.0;
+
+        rotateX = 0.0;
+        rotateY = 0.0;
+        rotateZ = 0.0;
+    }
 
 private:
     glm::vec4 color;
@@ -82,7 +93,7 @@ private:
 
     HorseDimension horse_dimension_;
 
-    GLfloat theta[NumNodes] =
+    GLfloat theta[11] =
     {
         0.0,	// Torso
         80.0,	// Head
@@ -110,7 +121,6 @@ private:
         torsoModel = baseScale * torsoModel;
         shader_.SetMatrix4("model", torsoModel * translate * scale);
         glDrawArrays(GL_TRIANGLES, 0, NumVertices);
-
 
         glm::mat4 neckModel = glm::translate(glm::mat4(1.0), glm::vec3(-(horse_dimension_.kTorsoWidth / 2 - horse_dimension_.kNeckWidth / 2), horse_dimension_.kTorsoHeight, 0.0)) * RotateZ(theta[Neck]);
         //nodes[Neck] = Node(m, neck, &nodes[LeftUpperArm], &nodes[Head]);
@@ -183,6 +193,7 @@ private:
         shader_.SetMatrix4("model", torsoModel * rightUpperLegModel * rightLowerLegModel * translate * scale);
         glDrawArrays(GL_TRIANGLES, 0, NumVertices);
     }
+
 
     inline glm::mat4 RotateX(float f)
     {

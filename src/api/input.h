@@ -10,6 +10,7 @@ public:
 
     static bool Keys[1024];
     static bool KeysProcessed[1024];
+    static bool KeysMode[1024];
 
     static void ProcessInput(GLfloat dt);
 

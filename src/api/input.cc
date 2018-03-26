@@ -5,6 +5,7 @@
 
 bool Input::Keys[1024];
 bool Input::KeysProcessed[1024];
+bool Input::KeysMode[1024];
 
 std::map<int, bool> Input::keyDown;
 std::map<int, bool> Input::keyUp;
@@ -41,7 +42,92 @@ void Input::ProcessInput(GLfloat dt)
         }
     }
 
-    if (Input::Keys[GLFW_KEY_LEFT])
+    //A ​ → move left 1 grid unit,
+    //D → move right 1 grid unit,
+    //W → move up 1 grid unit,
+    //S → move down 1 grid unit
+    //a ​ → rotate left 5 degrees about Y axis,
+    //d → rotate right 5 degrees about Y axis,
+    //w → rotate upwards 5 degrees raising the front legs,
+    //s → rotate downwards 5 degrees raising the hind legs.
+    else if(Input::Keys[GLFW_KEY_A] && !Input::KeysProcessed[GLFW_KEY_A])
+    {
+        Input::KeysProcessed[GLFW_KEY_A] = true;
+        if(Input::KeysMode[GLFW_KEY_A] == GLFW_MOD_SHIFT)
+        {
+            --(Controller::horse_->base_x);
+        }
+        else
+        {
+            Controller::horse_->rotateY +=5;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_D] && !Input::KeysProcessed[GLFW_KEY_D])
+    {
+        Input::KeysProcessed[GLFW_KEY_D] = true;
+        if(Input::KeysMode[GLFW_KEY_D] == GLFW_MOD_SHIFT)
+        {
+            ++(Controller::horse_->base_x);
+        }
+        else
+        {
+            Controller::horse_->rotateY -=5;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_W] && !Input::KeysProcessed[GLFW_KEY_W])
+    {
+        Input::KeysProcessed[GLFW_KEY_W] = true;
+        if(Input::KeysMode[GLFW_KEY_W] == GLFW_MOD_SHIFT)
+        {
+            ++(Controller::horse_->base_y);
+        }
+        else
+        {
+            Controller::horse_->rotateZ +=5;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_S] && !Input::KeysProcessed[GLFW_KEY_S])
+    {
+        Input::KeysProcessed[GLFW_KEY_S] = true;
+        if(Input::KeysMode[GLFW_KEY_S] == GLFW_MOD_SHIFT)
+        {
+            if(Controller::horse_->base_y >= 1.0f)
+            {
+                --(Controller::horse_->base_y);
+            }
+        }
+        else
+        {
+            Controller::horse_->rotateZ -=5;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_Q] && !Input::KeysProcessed[GLFW_KEY_Q])
+    {
+        Input::KeysProcessed[GLFW_KEY_Q] = true;
+        if(Input::KeysMode[GLFW_KEY_Q] == GLFW_MOD_SHIFT)
+        {
+            ++(Controller::horse_->base_z);
+        }
+        else
+        {
+            Controller::horse_->rotateX +=5;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_E] && !Input::KeysProcessed[GLFW_KEY_E])
+    {
+        Input::KeysProcessed[GLFW_KEY_E] = true;
+        if(Input::KeysMode[GLFW_KEY_E] == GLFW_MOD_SHIFT)
+        {
+            --(Controller::horse_->base_z);
+        }
+        else
+        {
+            Controller::horse_->rotateX -=5;
+        }
+    }
+
+    //The world orientation
+    else if(Input::Keys[GLFW_KEY_LEFT])
     {
         Controller::c_horizontal += 1.0f;
     }
@@ -49,7 +135,7 @@ void Input::ProcessInput(GLfloat dt)
     {
         Controller::c_horizontal -= 1.0f;
     }
-    else if (Input::Keys[GLFW_KEY_UP])
+    else if(Input::Keys[GLFW_KEY_UP])
     {
         Controller::c_vertical += 1.0f;
         if(Controller::c_vertical >= 90.0)
@@ -57,12 +143,32 @@ void Input::ProcessInput(GLfloat dt)
             Controller::c_vertical = 89.0f;
         }
     }
-    else if (Input::Keys[GLFW_KEY_DOWN])
+    else if(Input::Keys[GLFW_KEY_DOWN])
     {
         Controller::c_vertical -= 1.0f;
         if(Controller::c_vertical < 0)
         {
             Controller::c_vertical = 0.0f;
         }
+    }
+
+    //Pressing the “Home” button should reset to the initial world position and orientation
+    else if(Input::Keys[GLFW_KEY_HOME])
+    {
+        Controller::ResetController();
+    }
+    //rendering mode
+    //‘P’ for points, key ‘L’ for lines, key ‘T’ for triangles
+    else if(Input::Keys[GLFW_KEY_P])
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+    }
+    else if(Input::Keys[GLFW_KEY_L])
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+    else if(Input::Keys[GLFW_KEY_T])
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 }
