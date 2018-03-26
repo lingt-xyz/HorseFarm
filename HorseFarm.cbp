@@ -46,7 +46,7 @@
 			<Add directory="/Arch/lib64" />
 			<Add directory="/usr/lib64" />
 			<Add directory="/usr/lib/x86_64-linux-gnu" />
-			<Add directory="lib64" />
+			<Add directory="lib32" />
 		</Linker>
 		<Unit filename="src/api/camera.cc" />
 		<Unit filename="src/api/camera.h" />
