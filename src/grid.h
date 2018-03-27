@@ -12,10 +12,10 @@ class Grid
 {
 public:
 
-    Grid(Shader& shader);
+    Grid();
     ~Grid();
 
-    void Draw();
+    void Draw(Shader& shader);
 
 private:
     GLuint quadVAO_;

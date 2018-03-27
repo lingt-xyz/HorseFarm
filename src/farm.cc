@@ -8,19 +8,17 @@
 
 const GLfloat vertices[] =
 {
-     // position         // normal         // color                // texture
-     0.5f, 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-     0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-    -0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-    -0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+    // position         // normal         // color                // texture
+    0.5f, 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+    0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+    -0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    -0.5f, 0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
     -0.5f, 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-     0.5f, 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+    0.5f, 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
 };
 
-Farm::Farm(Shader& shader)
+Farm::Farm()
 {
-    this->shader_ = shader;
-
     GLuint VBO;
 
     glGenVertexArrays(1, &this->quadVAO_);
@@ -46,14 +44,20 @@ Farm::~Farm()
 {
 }
 
-void Farm::Draw()
+void Farm::Draw(Shader& shader)
 {
+    this->shader_ = shader;
     this->shader_.Use();
     this->shader_.SetMatrix4("projection", Controller::projection);
     this->shader_.SetMatrix4("view", Controller::view);
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::scale(model, glm::vec3(10.0f));
+    model = glm::scale(model, glm::vec3(50.0f));
     this->shader_.SetMatrix4("model", model);
+
+    // for texture only
+    this->shader_.SetInteger("material.diffuse", 0.3);
+    this->shader_.SetVector3f("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+    this->shader_.SetFloat("material.shininess", 64.0f);
 
     glBindVertexArray(this->quadVAO_);
 

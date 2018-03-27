@@ -10,10 +10,10 @@
 class Farm
 {
 public:
-    Farm(Shader& shader);
+    Farm();
     ~Farm();
 
-    void Draw();
+    void Draw(Shader& shader);
 
 private:
     GLuint quadVAO_;

@@ -51,10 +51,9 @@ const GLfloat vertices[] =
     -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
 };
 
-Lamp::Lamp(Shader& shader)
+Lamp::Lamp()
 {
     light_position_ = Controller::light_position_;
-    this->shader_ = shader;
 
     GLuint VBO;
 
@@ -77,8 +76,9 @@ Lamp::~Lamp()
 {
 }
 
-void Lamp::Draw()
+void Lamp::Draw(Shader& shader)
 {
+    this->shader_ = shader;
     this->shader_.Use();
     this->shader_.SetMatrix4("projection", Controller::projection);
     this->shader_.SetMatrix4("view", Controller::view);

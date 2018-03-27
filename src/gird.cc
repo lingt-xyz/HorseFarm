@@ -15,11 +15,10 @@ const GLfloat vertices[] =
     -0.5f, 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 };
 
-Grid::Grid(Shader& shader){
+Grid::Grid(){
 
     gridX_ = 25;
     gridZ_ = 25;
-    this->shader_ = shader;
 
     GLuint VBO;
 
@@ -45,7 +44,8 @@ Grid::Grid(Shader& shader){
 Grid::~Grid(){
 }
 
-void Grid::Draw(){
+void Grid::Draw(Shader& shader){
+    this->shader_ = shader;
     this->shader_.Use();
     this->shader_.SetMatrix4("projection", Controller::projection);
     this->shader_.SetMatrix4("view", Controller::view);

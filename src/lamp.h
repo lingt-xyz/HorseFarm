@@ -12,10 +12,10 @@ class Lamp
 {
 public:
 
-    Lamp(Shader& shader);
+    Lamp();
     ~Lamp();
 
-    void Draw();
+    void Draw(Shader& shader);
 
 private:
     GLuint quadVAO_;

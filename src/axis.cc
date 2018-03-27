@@ -30,11 +30,8 @@ const GLfloat vertices[] =
     -0.2f, 0.0f,  4.5f, 0.0f, 0.0f, 1.0f, 1.0f,
 };
 
-Axis::Axis(Shader& shader)
+Axis::Axis()
 {
-
-    this->shader_ = shader;
-
     GLuint VBO;
 
     glGenVertexArrays(1, &this->quadVAO_);
@@ -56,8 +53,9 @@ Axis::~Axis()
 {
 }
 
-void Axis::Draw()
+void Axis::Draw(Shader& shader)
 {
+    this->shader_ = shader;
     this->shader_.Use();
     this->shader_.SetMatrix4("projection", Controller::projection);
     this->shader_.SetMatrix4("view", Controller::view);

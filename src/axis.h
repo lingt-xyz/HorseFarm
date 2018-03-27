@@ -12,10 +12,10 @@ class Axis
 {
 public:
 
-    Axis(Shader& shader);
+    Axis();
     ~Axis();
 
-    void Draw();
+    void Draw(Shader& shader);
 
 private:
     GLuint quadVAO_;

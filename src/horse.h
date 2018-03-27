@@ -89,10 +89,10 @@ public:
         45.0	// Neck
     };
 
-    Horse(Shader& shader);
+    Horse();
     ~Horse();
 
-    void Draw();
+    void Draw(Shader& shader);
 
     void run()
     {

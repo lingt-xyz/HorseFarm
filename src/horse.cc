@@ -44,10 +44,8 @@ const GLfloat vertices[] =
     -0.5,  0.5,  0.5, -1.0, 0, 0, 0.7f, 1.0f, 0.7f, 1.0f, 0, 0,
 };
 
-Horse::Horse(Shader& shader)
+Horse::Horse()
 {
-    this->shader_ = shader;
-
     color = glm::vec4(getRandomFloat(), getRandomFloat(), getRandomFloat(), 1.0f);
 
     GLuint VBO;
@@ -75,8 +73,9 @@ Horse::~Horse()
 {
 }
 
-void Horse::Draw()
+void Horse::Draw(Shader& shader)
 {
+    this->shader_ = shader;
     this->shader_.Use();
 
     this->shader_.SetVector4f("aColor", color);
@@ -85,6 +84,11 @@ void Horse::Draw()
     glm::mat4 model = glm::mat4(1.0f);
 
     this->shader_.SetMatrix4("model", model);
+
+    // for texture only
+    this->shader_.SetInteger("material.diffuse", 0);
+    this->shader_.SetVector3f("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+    this->shader_.SetFloat("material.shininess", 64.0f);
 
     glBindVertexArray(this->quadVAO_);
 

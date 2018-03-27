@@ -163,7 +163,7 @@ void Input::ProcessInput(GLfloat dt)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
     }
-    else if(Input::Keys[GLFW_KEY_L])
+    else if(Input::Keys[GLFW_KEY_L] && Input::KeysMode[GLFW_KEY_L] != GLFW_MOD_SHIFT)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
@@ -318,21 +318,40 @@ void Input::ProcessInput(GLfloat dt)
         }
     }
     //Render the scene with grass texture on the ground mesh and horse-skin texture on the horse
-    else if(Input::Keys[GLFW_KEY_X])//debug
+    else if(Input::Keys[GLFW_KEY_L] && Input::KeysMode[GLFW_KEY_L] == GLFW_MOD_SHIFT && !Input::KeysProcessed[GLFW_KEY_L])//debug
     {
-        if(Controller::texture_on)
+        Input::KeysProcessed[GLFW_KEY_L] = true;
+        if(Controller::light_on)
         {
+            Controller::light_on = false;
             Controller::texture_on = false;
             Controller::shadow_on = false;
         }
         else
         {
-            Controller::texture_on = true;
+            Controller::light_on = true;
+        }
+    }
+    else if(Input::Keys[GLFW_KEY_X] && !Input::KeysProcessed[GLFW_KEY_X])
+    {
+        Input::KeysProcessed[GLFW_KEY_X] = true;
+        if(Controller::light_on)
+        {
+            if(Controller::texture_on)
+            {
+                Controller::texture_on = false;
+                Controller::shadow_on = false;
+            }
+            else
+            {
+                Controller::texture_on = true;
+            }
         }
     }
     //Render the scene with shadows using two pass shadow algorithm (Key B)
-    else if(Input::Keys[GLFW_KEY_B])//debug
+    else if(Input::Keys[GLFW_KEY_B] && !Input::KeysProcessed[GLFW_KEY_B])
     {
+        Input::KeysProcessed[GLFW_KEY_B] = true;
         if(Controller::texture_on)
         {
             if(Controller::shadow_on)

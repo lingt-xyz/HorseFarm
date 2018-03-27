@@ -7,6 +7,7 @@ in VS_OUT {
     vec2 TexCoords;
     vec4 FragPosLightSpace;
 } fs_in;
+in vec4 FragColors;
 
 uniform sampler2D diffuseTexture;
 uniform sampler2D shadowMap;
@@ -35,7 +36,6 @@ struct Light {
 uniform Material material;
 uniform Light light;
 
-uniform vec4 shader_color;
 
 uniform sampler2D texture1;
 // end of for texture only
@@ -115,15 +115,15 @@ void main()
 			specular = light.specular * (spec * material.specular);  
 		}else{
 			float ambientStrength = 0.5;
-			ambient = ambientStrength * light.specular * vec3(shader_color);
+			ambient = ambientStrength * light.specular * vec3(FragColors);
 
 			// diffuse
-			diffuse = diff * light.specular * vec3(shader_color);
+			diffuse = diff * light.specular * vec3(FragColors);
 	
 			// specular
 			float specularStrength = 0.5;
 			float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-			specular = specularStrength * spec * light.specular * vec3(shader_color);
+			specular = specularStrength * spec * light.specular * vec3(FragColors);
 
 		}	
 
