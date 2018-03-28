@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "test.h"
+#include "api/text_renderer.h"
 #include "grid.h"
 #include "axis.h"
 #include "lamp.h"
@@ -16,13 +16,13 @@
 class HorseFarm
 {
 public:
-    Test* test_;
     Grid* grid_;
     Axis* axis_;
     Lamp* lamp_;
     Farm* farm_;
     Horse* horse_;
 
+    TextRenderer *text_;
     //std::vector<Horse> vector_horse_;
 
     // Constructor/Destructor
@@ -33,7 +33,14 @@ public:
 
     void Render();
 
+    void renderScene(Shader &shader);
+
 private:
     GLuint width_;
     GLuint height_;
+
+    unsigned int bricksTexture;
+    unsigned int grassTexture;
+    unsigned int depthMapFBO;
+    unsigned int depthMap;
 };

@@ -14,16 +14,16 @@ glm::vec3 Controller::c_pos;
 glm::vec3 Controller::c_dir; // camera direction
 glm::vec3 Controller::c_up; // tell the camera which way is 'up'
 
-glm::vec3 Controller::light_position_ = glm::vec3(0.1f, 20.0f, 0.1f);
+glm::vec3 Controller::light_position_ = glm::vec3(0.0f, 20.0f, 0.0f);
 
 glm::mat4 Controller::view;
 glm::mat4 Controller::projection;
 
-bool Controller::light_on = false;
+bool Controller::light_on = true;
 bool Controller::texture_on = false;
 bool Controller::shadow_on = false;
 
-//Horse* Controller::horse_;
+Horse* Controller::horse_;
 
 Controller::Controller() {}
 Controller::~Controller() {}
@@ -53,6 +53,6 @@ void Controller::ResetController()
 
     Controller::c_radius = 80.0f;
 
-    //Controller::horse_->ResetModel();
+    Controller::horse_->ResetModel();
     Controller::UpdateController();
 }

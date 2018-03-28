@@ -13,7 +13,7 @@ std::map<int, bool> Input::keyHeld;
 
 void Input::ProcessInput(GLfloat dt)
 {
-/*
+
     //Pressing the spacebar should re-position the horse at a random location on the grid
     if(Input::Keys[GLFW_KEY_SPACE] && !Input::KeysProcessed[GLFW_KEY_SPACE])
     {
@@ -125,10 +125,10 @@ void Input::ProcessInput(GLfloat dt)
         {
             Controller::horse_->rotateX -=5;
         }
-    }*/
+    }
 
     //The world orientation
-    /*else*/ if(Input::Keys[GLFW_KEY_LEFT])
+    else if(Input::Keys[GLFW_KEY_LEFT])
     {
         Controller::c_horizontal += 1.0f;
     }
@@ -172,7 +172,7 @@ void Input::ProcessInput(GLfloat dt)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
-/*
+
     //Rotate joint 0 by 5 degrees (Key_0 clockwise and the corresponding Shift + Key_0 for counterclockwise
     else if(Input::Keys[GLFW_KEY_0])
     {
@@ -284,8 +284,9 @@ void Input::ProcessInput(GLfloat dt)
             Controller::horse_->theta[RightLowerLeg] -= 1.0;
         }
     }
-    else if(Input::Keys[GLFW_KEY_R])
+    else if(Input::Keys[GLFW_KEY_R] && !Input::KeysProcessed[GLFW_KEY_R])
     {
+        Input::KeysProcessed[GLFW_KEY_R] = true;
         if(Controller::horse_->run_on) // stop
         {
             Controller::horse_->run_on = false;
@@ -309,18 +310,9 @@ void Input::ProcessInput(GLfloat dt)
         Input::KeysProcessed[GLFW_KEY_MINUS] = true;
         ++(Controller::horse_->speedDivision);
     }
-    else if(Input::Keys[GLFW_KEY_N])//debug
-    {
-        Controller::horse_->run();
-        Controller::horse_->tmp_step += 1;
-        if(Controller::horse_->tmp_step > 6)
-        {
-            Controller::horse_->tmp_step = 1;
-        }
-    }
-    */
+
     //Render the scene with grass texture on the ground mesh and horse-skin texture on the horse
-   /* else*/ if(Input::Keys[GLFW_KEY_L] && Input::KeysMode[GLFW_KEY_L] == GLFW_MOD_SHIFT && !Input::KeysProcessed[GLFW_KEY_L])//debug
+    else if(Input::Keys[GLFW_KEY_L] && Input::KeysMode[GLFW_KEY_L] == GLFW_MOD_SHIFT && !Input::KeysProcessed[GLFW_KEY_L])//debug
     {
         Input::KeysProcessed[GLFW_KEY_L] = true;
         if(Controller::light_on)

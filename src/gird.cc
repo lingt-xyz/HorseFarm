@@ -32,7 +32,7 @@ Grid::Grid(){
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(6 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 12 * sizeof(float), (void*)(10 * sizeof(float)));
 
@@ -48,7 +48,13 @@ void Grid::Draw(Shader& shader){
     //this->shader_.SetMatrix4("projection", Controller::projection);
     //this->shader_.SetMatrix4("view", Controller::view);
     this->shader_.SetMatrix4("model", glm::mat4(1.0f));
+    // for no texture only
+    this->shader_.SetVector4f("shader_color", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
+    // for texture only
+    this->shader_.SetInteger("material.diffuse", 0.3);
+    this->shader_.SetVector3f("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+    this->shader_.SetFloat("material.shininess", 64.0f);
     glBindVertexArray(this->quadVAO_);
 
     glm::mat4 base = glm::translate(glm::mat4(1.0f), glm::vec3(0.5, 0.0, 0.5));
@@ -78,14 +84,6 @@ void Grid::Draw(Shader& shader){
             glDrawArrays(GL_LINE_LOOP, 0, 4);
         }
     }
-
-    // for no texture only
-    this->shader_.SetVector4f("shader_color", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-
-    // for texture only
-    this->shader_.SetInteger("material.diffuse", 0.3);
-    this->shader_.SetVector3f("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-    this->shader_.SetFloat("material.shininess", 64.0f);
 
     glBindVertexArray(0);
 }
