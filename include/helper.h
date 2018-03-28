@@ -9,6 +9,13 @@ static int getRandomFromRange(int gridX)
     return rand() % gridX + 1;
 }
 
+static float getRandomFromRange(float from, float to){
+    std::random_device rd;  //Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_real_distribution<> dis(from, to);
+    return dis(gen);
+}
+
 static bool getRandomBool()
 {
     return (rand() % 2 == 0) ? true:false;

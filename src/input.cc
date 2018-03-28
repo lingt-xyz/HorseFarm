@@ -157,6 +157,7 @@ void Input::ProcessInput(GLfloat dt)
     else if(Input::Keys[GLFW_KEY_HOME])
     {
         Controller::ResetController();
+
     }
     //rendering mode
     //‘P’ for points, key ‘L’ for lines, key ‘T’ for triangles
@@ -355,6 +356,25 @@ void Input::ProcessInput(GLfloat dt)
             else
             {
                 Controller::shadow_on = true;
+            }
+        }
+    }
+
+    // final project
+    else if(Input::Keys[GLFW_KEY_F] && !Input::KeysProcessed[GLFW_KEY_F])
+    {
+        Input::KeysProcessed[GLFW_KEY_F] = true;
+        if(Controller::texture_on)
+        {
+            if(Controller::final_on)
+            {
+                Controller::final_on = false;
+                Controller::added = true;
+            }
+            else
+            {
+                Controller::final_on = true;
+                Controller::added = false;
             }
         }
     }

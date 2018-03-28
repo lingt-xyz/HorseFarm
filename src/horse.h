@@ -173,6 +173,8 @@ public:
         }
     }
 
+    void GenerateRandomHorse();
+
     void ResetModel()
     {
         base_scale = 1.0f;

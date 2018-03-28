@@ -35,7 +35,13 @@ HorseFarm::~HorseFarm()
     delete this->axis_;
     delete this->lamp_;
     delete this->farm_;
-    delete this->horse_;
+    horse_list_.remove_if([](Horse *theElement)
+    {
+        delete theElement;
+        return true;
+    });
+
+    //while(!horse_list_.empty()) delete horse_list_.front(), horse_list_.pop_front();
 }
 
 void HorseFarm::Init()
@@ -45,7 +51,6 @@ void HorseFarm::Init()
     ResourceManager::LoadShader("shaders/shadow_mapping.vs", "shaders/shadow_mapping.fs", nullptr, "shadow_mapping");
     ResourceManager::LoadShader("shaders/shadow_mapping_depth.vs", "shaders/shadow_mapping_depth.fs", nullptr, "shadow_mapping_depth");
     ResourceManager::LoadShader("shaders/simple.vs", "shaders/simple.fs", nullptr, "simple");
-
 
     // load textures
     // -------------
@@ -83,8 +88,8 @@ void HorseFarm::Init()
     this->grid_ = new Grid();
     this->lamp_ = new Lamp();
     this->farm_ = new Farm();
-    this->horse_ = new Horse();
-    Controller::horse_ = this->horse_;
+    this->AddHorses(1);
+    Controller::horse_ = horse_list_.front();
 }
 
 void HorseFarm::Render()
@@ -102,6 +107,24 @@ void HorseFarm::Render()
 
     Controller::UpdateController();
 
+
+    if(Controller::final_on)
+    {
+        if(!Controller::added)
+        {
+            this->AddHorses(3);
+            Controller::added = true;
+        }
+    }
+    else
+    {
+        while(horse_list_.size() != 1)
+        {
+            Horse* h = horse_list_.back();
+            horse_list_.pop_back();
+            delete h;
+        }
+    }
     // for shadow only
     glm::mat4 lightSpaceMatrix;
     if(Controller::shadow_on)
@@ -112,10 +135,9 @@ void HorseFarm::Render()
 
         // 1. render depth of scene to texture (from light's perspective)
         // --------------------------------------------------------------
-        float near_plane = 1.0f, far_plane = 100.0f;
         //// note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-        glm::mat4 lightProjection = glm::perspective(glm::radians(130.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane);
-        //lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        glm::mat4 lightProjection = glm::perspective(glm::radians(130.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, 1.0f, 100.0f);
+        lightProjection = glm::ortho(-30.0f, 30.0f, -30.0f, 30.0f, 1.0f, 100.0f);
         glm::mat4 lightView = glm::lookAt(Controller::light_position_, glm::vec3(0.0f), glm::vec3(0.0, 0.0, 1.0));
         lightSpaceMatrix = lightProjection * lightView;
         // render scene from light's point of view
@@ -123,7 +145,7 @@ void HorseFarm::Render()
         shader_mapping_depth.Use();
         shader_mapping_depth.SetMatrix4("lightSpaceMatrix", lightSpaceMatrix);
 
-        renderScene(shader_mapping_depth);
+        RenderScene(shader_mapping_depth);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         // reset viewport
@@ -175,7 +197,7 @@ void HorseFarm::Render()
     // set light uniforms
     glUniform3fv(glGetUniformLocation(shader, "viewPos"), 1, glm::value_ptr(Controller::c_pos));
     Shader s2 = ResourceManager::GetShader("shadow_mapping");
-    renderScene(s2);
+    RenderScene(s2);
 
     Shader simpleShader = ResourceManager::GetShader("simple");
     simpleShader.Use();
@@ -185,7 +207,7 @@ void HorseFarm::Render()
     lamp_->Draw(simpleShader);
 }
 
-void HorseFarm::renderScene(Shader &shader)
+void HorseFarm::RenderScene(Shader &shader)
 {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, grassTexture);
@@ -193,9 +215,12 @@ void HorseFarm::renderScene(Shader &shader)
     glBindTexture(GL_TEXTURE_2D, depthMap);
 
 
-    if(!Controller::texture_on){
+    if(!Controller::texture_on)
+    {
         grid_->Draw(shader);
-    }else{
+    }
+    else
+    {
         farm_->Draw(shader);
     }
 
@@ -204,5 +229,19 @@ void HorseFarm::renderScene(Shader &shader)
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthMap);
 
-    horse_->Draw(shader);
+    for (Horse* h : horse_list_)
+    {
+        h->Draw(shader);
+    }
+}
+
+void HorseFarm::AddHorses(unsigned number)
+{
+    for(int i=0; i<number; i++)
+    {
+        Horse* horse = new Horse();
+        horse->GenerateRandomHorse();
+
+        horse_list_.push_back(horse);
+    }
 }

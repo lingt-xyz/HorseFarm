@@ -22,6 +22,8 @@ glm::mat4 Controller::projection;
 bool Controller::light_on = true;
 bool Controller::texture_on = false;
 bool Controller::shadow_on = false;
+bool Controller::final_on = false;
+bool Controller::added = false;
 
 Horse* Controller::horse_;
 

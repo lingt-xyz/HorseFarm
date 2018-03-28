@@ -37,6 +37,9 @@ public:
     static bool texture_on;
     static bool shadow_on;
 
+    static bool final_on;
+    static bool added;
+
     static Horse* horse_;
 
     Controller();

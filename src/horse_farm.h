@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <list>
 #include <tuple>
 
 #include <GL/glew.h>
@@ -20,7 +21,7 @@ public:
     Axis* axis_;
     Lamp* lamp_;
     Farm* farm_;
-    Horse* horse_;
+    std::list<Horse*> horse_list_;
 
     TextRenderer *text_;
     //std::vector<Horse> vector_horse_;
@@ -33,7 +34,7 @@ public:
 
     void Render();
 
-    void renderScene(Shader &shader);
+    void AddHorses(unsigned number);
 
 private:
     GLuint width_;
@@ -43,4 +44,6 @@ private:
     unsigned int grassTexture;
     unsigned int depthMapFBO;
     unsigned int depthMap;
+
+    void RenderScene(Shader &shader);
 };
