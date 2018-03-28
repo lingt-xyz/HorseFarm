@@ -46,15 +46,13 @@
 			<Add directory="/Arch/lib64" />
 			<Add directory="/usr/lib64" />
 			<Add directory="/usr/lib/x86_64-linux-gnu" />
-			<Add directory="lib64" />
+			<Add directory="lib32" />
 		</Linker>
 		<Unit filename="src/MatrixStack.h" />
 		<Unit filename="src/Node.h" />
 		<Unit filename="src/Vertices.h" />
 		<Unit filename="src/api/camera.cc" />
 		<Unit filename="src/api/camera.h" />
-		<Unit filename="src/api/input.cc" />
-		<Unit filename="src/api/input.h" />
 		<Unit filename="src/api/obj_loader.cc" />
 		<Unit filename="src/api/obj_loader.h" />
 		<Unit filename="src/api/resource_manager.cc" />
