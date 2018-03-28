@@ -9,7 +9,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-//#include "horse.h"
+#include "horse.h"
 
 class Controller
 {
@@ -37,7 +37,7 @@ public:
     static bool texture_on;
     static bool shadow_on;
 
-    //static Horse* horse_;
+    static Horse* horse_;
 
     Controller();
     ~Controller();

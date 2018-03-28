@@ -1,11 +1,16 @@
 #version 330 core
 
-in vec4 fragColor;
+out vec4 FragColor;
 
-out vec4 color;
+in vec4 fragmentColor;
 
+uniform bool self_color;
 
 void main()
 {
-	color = fragColor;
+	if(self_color){
+		FragColor = fragmentColor;
+	}else{
+		FragColor = vec4(1.0);
+	}
 }

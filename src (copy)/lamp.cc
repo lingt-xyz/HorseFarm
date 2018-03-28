@@ -4,7 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "lamp.h"
-//#include "controller.h"
+#include "controller.h"
 
 const GLfloat vertices[] =
 {
@@ -53,8 +53,8 @@ const GLfloat vertices[] =
 
 Lamp::Lamp()
 {
-    //light_position_ = Controller::light_position_;
-    light_position_ = glm::vec3(0.0f, 20.0f, 0.0f);
+    light_position_ = Controller::light_position_;
+
     GLuint VBO;
 
     glGenVertexArrays(1, &this->quadVAO_);
@@ -80,9 +80,8 @@ void Lamp::Draw(Shader& shader)
 {
     this->shader_ = shader;
     this->shader_.Use();
-    //this->shader_.SetMatrix4("projection", Controller::projection);
-    //this->shader_.SetMatrix4("view", Controller::view);
-    this->shader_.SetInteger("self_color", 0);
+    this->shader_.SetMatrix4("projection", Controller::projection);
+    this->shader_.SetMatrix4("view", Controller::view);
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, light_position_);
     model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube

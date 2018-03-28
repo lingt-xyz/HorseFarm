@@ -205,7 +205,6 @@ public:
 
 private:
     glm::vec4 color;
-    unsigned int NumVertices = 36;
 
     GLuint quadVAO_;
     Shader shader_;
@@ -224,49 +223,50 @@ private:
 
         torsoModel = baseScale * torsoModel;
         shader_.SetMatrix4("model", torsoModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        return;
         glm::mat4 neckModel = glm::translate(glm::mat4(1.0), glm::vec3(-(horse_dimension_.kTorsoWidth / 2 - horse_dimension_.kNeckWidth / 2), horse_dimension_.kTorsoHeight, 0.0)) * RotateZ(theta[Neck]);
         //nodes[Neck] = Node(m, neck, &nodes[LeftUpperArm], &nodes[Head]);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kNeckHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kNeckWidth, horse_dimension_.kNeckHeight, horse_dimension_.kNeckDepth));
         shader_.SetMatrix4("model", torsoModel * neckModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 headModel = glm::translate(glm::mat4(1.0), glm::vec3(0.0, horse_dimension_.kNeckHeight, 0.0)) * RotateZ(theta[Head]);
         //nodes[Head] = Node(m, head, NULL, NULL);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kHeadHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kHeadWidth, horse_dimension_.kHeadHeight, horse_dimension_.kHeadDepth));
         shader_.SetMatrix4("model", torsoModel * neckModel * headModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 leftUpperArmModel = glm::translate(glm::mat4(1.0), glm::vec3(horse_dimension_.kTorsoWidth / 2 - horse_dimension_.kUpperLegWidth / 2, 0.1*horse_dimension_.kUpperLegHeight, -horse_dimension_.kTorsoDepth/2 + horse_dimension_.kUpperLegWidth / 2)) * RotateZ(theta[LeftUpperArm]);
         //nodes[LeftUpperArm] = Node(m, left_upper_arm, &nodes[RightUpperArm], &nodes[LeftLowerArm]);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kUpperArmHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kUpperArmWidth, horse_dimension_.kUpperArmHeight, horse_dimension_.kUpperArmWidth));
         shader_.SetMatrix4("model", torsoModel * leftUpperArmModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 rightUpperArmModel = glm::translate(glm::mat4(1.0), glm::vec3(horse_dimension_.kTorsoWidth / 2 - horse_dimension_.kUpperLegWidth / 2, 0.1*horse_dimension_.kUpperArmHeight, horse_dimension_.kTorsoDepth/2 - horse_dimension_.kUpperArmWidth / 2)) * RotateZ(theta[RightUpperArm]);
         //nodes[RightUpperArm] = Node(m, right_upper_arm, &nodes[LeftUpperLeg], &nodes[RightLowerArm]);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kUpperArmHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kUpperArmWidth, horse_dimension_.kUpperArmHeight, horse_dimension_.kUpperArmWidth));
         shader_.SetMatrix4("model", torsoModel * rightUpperArmModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 leftUpperLegModel = glm::translate(glm::mat4(1.0), glm::vec3(-(horse_dimension_.kTorsoWidth / 2 - horse_dimension_.kUpperArmWidth / 2), 0.1*horse_dimension_.kUpperArmHeight, -horse_dimension_.kTorsoDepth/2 + horse_dimension_.kUpperArmWidth / 2)) * RotateZ(theta[LeftUpperLeg]);
         //nodes[LeftUpperLeg] = Node(m, left_upper_leg, &nodes[RightUpperLeg], &nodes[LeftLowerLeg]);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kUpperLegHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kUpperLegWidth, horse_dimension_.kUpperLegHeight, horse_dimension_.kUpperLegWidth));
         shader_.SetMatrix4("model", torsoModel * leftUpperLegModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 rightUpperLegModel = glm::translate(glm::mat4(1.0), glm::vec3(-(horse_dimension_.kTorsoWidth / 2 - horse_dimension_.kUpperLegWidth / 2), 0.1*horse_dimension_.kUpperLegHeight, horse_dimension_.kTorsoDepth/2 - horse_dimension_.kUpperLegWidth / 2)) * RotateZ(theta[RightUpperLeg]);
         //nodes[RightUpperLeg] = Node(m, right_upper_leg, NULL, &nodes[RightLowerLeg]);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kUpperLegHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kUpperLegWidth, horse_dimension_.kUpperLegHeight, horse_dimension_.kUpperLegWidth));
         shader_.SetMatrix4("model", torsoModel * rightUpperLegModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
         glm::mat4 leftLowerArmModel = glm::translate(glm::mat4(1.0), glm::vec3(0.0, horse_dimension_.kUpperArmHeight, 0.0)) * RotateZ(theta[LeftLowerArm]);
@@ -274,28 +274,28 @@ private:
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kLowerArmHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kLowerArmWidth, horse_dimension_.kLowerArmHeight, horse_dimension_.kLowerArmWidth));
         shader_.SetMatrix4("model", torsoModel * leftUpperArmModel * leftLowerArmModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 rightLowerArmModel = glm::translate(glm::mat4(1.0), glm::vec3(0.0, horse_dimension_.kUpperArmHeight, 0.0)) * RotateZ(theta[RightLowerArm]);
         //nodes[RightLowerArm] = Node(m, right_lower_arm, NULL, NULL);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kLowerArmHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kLowerArmWidth, horse_dimension_.kLowerArmHeight, horse_dimension_.kLowerArmWidth));
         shader_.SetMatrix4("model", torsoModel * rightUpperArmModel * rightLowerArmModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 leftLowerLegModel = glm::translate(glm::mat4(1.0), glm::vec3(0.0, horse_dimension_.kUpperLegHeight, 0.0)) * RotateZ(theta[LeftLowerLeg]);
         //nodes[LeftLowerLeg] = Node(m, left_lower_leg, NULL, NULL);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kLowerLegHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kLowerLegWidth, horse_dimension_.kLowerLegHeight, horse_dimension_.kLowerLegWidth));
         shader_.SetMatrix4("model", torsoModel * leftUpperLegModel* leftLowerLegModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         glm::mat4 rightLowerLegModel = glm::translate(glm::mat4(1.0), glm::vec3(0.0, horse_dimension_.kUpperLegHeight, 0.0))* RotateZ(theta[RightLowerLeg]);
         //nodes[RightLowerLeg] = Node(m, right_lower_leg, NULL, NULL);
         translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.5 * horse_dimension_.kLowerLegHeight, 0.0));
         scale = glm::scale(glm::mat4(1.0f), glm::vec3(horse_dimension_.kLowerLegWidth, horse_dimension_.kLowerLegHeight, horse_dimension_.kLowerLegWidth));
         shader_.SetMatrix4("model", torsoModel * rightUpperLegModel * rightLowerLegModel * translate * scale);
-        glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 
 

@@ -1,5 +1,5 @@
 #include "controller.h"
-#include "window.h"
+#include "api/window.h"
 
 float Controller::c_vertical = 0.0f;
 float Controller::c_horizontal = 90.0f;
@@ -23,7 +23,7 @@ bool Controller::light_on = false;
 bool Controller::texture_on = false;
 bool Controller::shadow_on = false;
 
-//Horse* Controller::horse_;
+Horse* Controller::horse_;
 
 Controller::Controller() {}
 Controller::~Controller() {}
@@ -53,6 +53,6 @@ void Controller::ResetController()
 
     Controller::c_radius = 80.0f;
 
-    //Controller::horse_->ResetModel();
+    Controller::horse_->ResetModel();
     Controller::UpdateController();
 }

@@ -43,8 +43,8 @@ Axis::Axis()
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7*sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7*sizeof(float), (void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 7*sizeof(float), (void*)(3*sizeof(float)));
 
     glBindVertexArray(0);
 }
@@ -57,9 +57,8 @@ void Axis::Draw(Shader& shader)
 {
     this->shader_ = shader;
     this->shader_.Use();
-    //this->shader_.SetMatrix4("projection", Controller::projection);
-    //this->shader_.SetMatrix4("view", Controller::view);
-    this->shader_.SetInteger("self_color", 1);
+    this->shader_.SetMatrix4("projection", Controller::projection);
+    this->shader_.SetMatrix4("view", Controller::view);
     this->shader_.SetMatrix4("model", glm::mat4(1.0f));
 
     glBindVertexArray(this->quadVAO_);
