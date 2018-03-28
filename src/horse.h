@@ -57,6 +57,10 @@ class Horse
 {
 public:
 
+    glm::vec2 position_ = glm::vec2(0.0f, 0.0f);
+    float depth_ = 1.0f;
+    float width_ = 5.0f;
+
     bool run_on = false;
 
     int tmp_step = 1;

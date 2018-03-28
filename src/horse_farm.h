@@ -21,7 +21,10 @@ public:
     Axis* axis_;
     Lamp* lamp_;
     Farm* farm_;
+    Horse* horse_;
     std::list<Horse*> horse_list_;
+
+    unsigned ground[50][50];
 
     TextRenderer *text_;
     //std::vector<Horse> vector_horse_;
@@ -45,5 +48,6 @@ private:
     unsigned int depthMapFBO;
     unsigned int depthMap;
 
+    void PutOnGround(Horse* horse);
     void RenderScene(Shader &shader);
 };

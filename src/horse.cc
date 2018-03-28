@@ -115,13 +115,24 @@ void Horse::GenerateRandomHorse()
     if(getRandomBool())
     {
         this->base_x = getRandomFromRange(20);
-        this->base_z = getRandomFromRange(20);
     }
     else
     {
         this->base_x = -getRandomFromRange(20);
+    }
+    if(getRandomBool())
+    {
+        this->base_z = getRandomFromRange(20);
+    }
+    else
+    {
         this->base_z = -getRandomFromRange(20);
     }
+    this->rotateY = getRandomFromRange(0, 360);
 
-    this->base_scale = getRandomFromRange(0.5, 1.2);
+    this->base_scale = getRandomFromRange(0.6, 1.2);
+
+    this->position_ = glm::vec2(base_x, base_z);
+    this->width_ = width_ * base_scale;
+    this->depth_ = depth_ * base_scale;
 }

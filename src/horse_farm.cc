@@ -29,12 +29,13 @@ HorseFarm::HorseFarm(GLuint width, GLuint height)
 
 HorseFarm::~HorseFarm()
 {
-    delete text_;
+    //delete this->text_;
 
     delete this->grid_;
     delete this->axis_;
     delete this->lamp_;
     delete this->farm_;
+    delete this->horse_;
     horse_list_.remove_if([](Horse *theElement)
     {
         delete theElement;
@@ -88,8 +89,8 @@ void HorseFarm::Init()
     this->grid_ = new Grid();
     this->lamp_ = new Lamp();
     this->farm_ = new Farm();
-    this->AddHorses(1);
-    Controller::horse_ = horse_list_.front();
+    this->horse_ = new Horse();
+    Controller::horse_ = horse_;
 }
 
 void HorseFarm::Render()
@@ -112,18 +113,17 @@ void HorseFarm::Render()
     {
         if(!Controller::added)
         {
-            this->AddHorses(3);
+            this->AddHorses(19);
             Controller::added = true;
         }
     }
     else
     {
-        while(horse_list_.size() != 1)
+        horse_list_.remove_if([](Horse *theElement)
         {
-            Horse* h = horse_list_.back();
-            horse_list_.pop_back();
-            delete h;
-        }
+            delete theElement;
+            return true;
+        });
     }
     // for shadow only
     glm::mat4 lightSpaceMatrix;
@@ -229,6 +229,7 @@ void HorseFarm::RenderScene(Shader &shader)
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthMap);
 
+    horse_->Draw(shader);
     for (Horse* h : horse_list_)
     {
         h->Draw(shader);
@@ -244,4 +245,11 @@ void HorseFarm::AddHorses(unsigned number)
 
         horse_list_.push_back(horse);
     }
+}
+
+void HorseFarm::PutOnGround(Horse* horse){
+    horse->position_;
+    horse->width_;
+    horse->depth_;
+//ground
 }
