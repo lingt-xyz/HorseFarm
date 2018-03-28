@@ -24,8 +24,6 @@ public:
     Horse* horse_;
     std::list<Horse*> horse_list_;
 
-    unsigned ground[50][50];
-
     TextRenderer *text_;
     //std::vector<Horse> vector_horse_;
 
