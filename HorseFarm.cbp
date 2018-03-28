@@ -48,10 +48,14 @@
 			<Add directory="/usr/lib/x86_64-linux-gnu" />
 			<Add directory="lib32" />
 		</Linker>
+		<Unit filename="src/Horse.h" />
+		<Unit filename="src/MatrixStack.h" />
+		<Unit filename="src/Node.h" />
+		<Unit filename="src/Vertices.h" />
 		<Unit filename="src/api/camera.cc" />
 		<Unit filename="src/api/camera.h" />
-		<Unit filename="src/api/input.cc" />
-		<Unit filename="src/api/input.h" />
+		<Unit filename="src/api/obj_loader.cc" />
+		<Unit filename="src/api/obj_loader.h" />
 		<Unit filename="src/api/resource_manager.cc" />
 		<Unit filename="src/api/resource_manager.h" />
 		<Unit filename="src/api/shader.cc" />
@@ -60,23 +64,19 @@
 		<Unit filename="src/api/text_renderer.h" />
 		<Unit filename="src/api/texture.cc" />
 		<Unit filename="src/api/texture.h" />
-		<Unit filename="src/api/window.cc" />
-		<Unit filename="src/api/window.h" />
 		<Unit filename="src/axis.cc" />
 		<Unit filename="src/axis.h" />
 		<Unit filename="src/controller.cc" />
 		<Unit filename="src/controller.h" />
-		<Unit filename="src/farm.cc" />
-		<Unit filename="src/farm.h" />
 		<Unit filename="src/gird.cc" />
 		<Unit filename="src/grid.h" />
-		<Unit filename="src/horse.cc" />
-		<Unit filename="src/horse.h" />
-		<Unit filename="src/horse_farm.cc" />
-		<Unit filename="src/horse_farm.h" />
+		<Unit filename="src/input.cc" />
+		<Unit filename="src/input.h" />
 		<Unit filename="src/lamp.cc" />
 		<Unit filename="src/lamp.h" />
 		<Unit filename="src/main.cc" />
+		<Unit filename="src/window.cc" />
+		<Unit filename="src/window.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
