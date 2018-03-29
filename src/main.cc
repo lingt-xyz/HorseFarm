@@ -41,6 +41,22 @@ int main()
     }
 
 
+    glm::vec2 position1 = glm::vec2(10, 0);
+    float offset1 = 1;
+    float offset2 = 2;
+    glm::vec2 position0 = glm::vec2(0, 0);;
+    glm::vec2 projection = position1 - position0;
+
+    float dotProduct0 = glm::dot(position0, projection);
+    float scalarProjection0 = dotProduct0/glm::length(projection);
+
+    float dotProduct1 = glm::dot(position1, projection);
+    float scalarProjection1 = dotProduct1/glm::length(projection);
+    if(scalarProjection0 + scalarProjection1 + offset1 + offset2 < glm::distance(position0, position1)){
+
+    }
+
+    //return 0;
 
     // DeltaTime variables
     GLfloat deltaTime = 0.0f;

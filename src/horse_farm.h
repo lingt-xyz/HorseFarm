@@ -47,4 +47,6 @@ private:
     unsigned int depthMap;
 
     void RenderScene(Shader &shader);
+
+    bool CheckCollisionByProjection(Horse* horse);
 };

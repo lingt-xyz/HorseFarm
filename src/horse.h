@@ -58,6 +58,17 @@ class Horse
 public:
     static std::tuple<int, int> ground_[50][50];
     static unsigned global_id_;
+
+    unsigned id_;
+    glm::vec4 color;
+    glm::vec2 position_ = glm::vec2(-0.5f, 0.0f);
+    float unit_ = 0.5f;
+    glm::vec2 points[12];
+
+    float offset_ = 1.0f;
+    glm::vec2 vector_ = glm::vec2(-2.5, 0);
+
+
     bool run_on = false;
 
     int tmp_step = 1;
@@ -65,15 +76,15 @@ public:
     int tmp_time = 0;
     int speedDivision = 10;
 
-    double base_scale = 1.0f;
+    float base_scale = 1.0f;
 
     float base_x = 0.0;
     float base_y = 0.0;
     float base_z = 0.0;
 
-    double rotateX = 0.0;
-    double rotateY = 0.0;
-    double rotateZ = 0.0;
+    float rotateX = 0.0;
+    float rotateY = 0.0;
+    float rotateZ = 0.0;
 
     GLfloat theta[11] =
     {
@@ -207,18 +218,12 @@ public:
     }
 
 private:
-    unsigned id_;
-    glm::vec4 color;
-    glm::vec2 position_ = glm::vec2(0.0f, 0.0f);
-    float unit_ = 0.5f;
-    glm::vec2 points[12];
-
     GLuint quadVAO_;
     Shader shader_;
 
     HorseDimension horse_dimension_;
 
-    bool CheckCollision()
+    bool CheckCollisionByTwoDimensionArray()
     {
 //      P9     P8     P7     P4     P5     P6
 //      ------------------------------------

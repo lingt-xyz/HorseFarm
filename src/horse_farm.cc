@@ -113,7 +113,7 @@ void HorseFarm::Render()
     {
         if(!Controller::added)
         {
-            this->AddHorses(20);
+            this->AddHorses(2);
             Controller::added = true;
         }
     }
@@ -247,8 +247,32 @@ void HorseFarm::AddHorses(unsigned number)
     for(int i=0; i<number; i++)
     {
         Horse* horse = new Horse();
-        horse->GenerateRandomHorse();
-
+        do
+        {
+            horse->GenerateRandomHorse();
+        }
+        while(CheckCollisionByProjection(horse));
         horse_list_.push_back(horse);
     }
+}
+
+bool HorseFarm::CheckCollisionByProjection(Horse* horse)
+{
+    for(Horse* h : horse_list_){
+        h->vector_;
+        glm::vec2 position1 = h->position_;
+        glm::vec2 position0 = horse->position_;
+        glm::vec2 projection = position1 - position0;
+
+        float dotProduct0 = glm::dot(horse->vector_, projection);
+        float scalarProjection0 = dotProduct0/glm::length(projection);
+
+        float dotProduct1 = glm::dot(h->vector_, projection);
+        float scalarProjection1 = dotProduct1/glm::length(projection);
+        if(scalarProjection0 + scalarProjection1 + horse->offset_ + h->offset_ < glm::distance(position0, position1)){
+            return true;
+        }
+
+    }
+    return false;
 }

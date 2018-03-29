@@ -117,30 +117,29 @@ void Horse::Draw(Shader& shader)
 
 void Horse::GenerateRandomHorse()
 {
-    do
+    if(getRandomBool())
     {
-        if(getRandomBool())
-        {
-            this->base_x = getRandomFromRange(18);
-        }
-        else
-        {
-            this->base_x = -getRandomFromRange(18);
-        }
-        if(getRandomBool())
-        {
-            this->base_z = getRandomFromRange(18);
-        }
-        else
-        {
-            this->base_z = -getRandomFromRange(18);
-        }
-        this->rotateY = getRandomFromRange(0, 360);
-
-        this->base_scale = getRandomFromRange(0.6, 1.2);
-
-        this->position_ = glm::vec2(base_x, base_z);
-        this->unit_ = 1 * base_scale;
+        this->base_x = getRandomFromRange(18);
     }
-    while(this->CheckCollision());
+    else
+    {
+        this->base_x = -getRandomFromRange(18);
+    }
+    if(getRandomBool())
+    {
+        this->base_z = getRandomFromRange(18);
+    }
+    else
+    {
+        this->base_z = -getRandomFromRange(18);
+    }
+    this->rotateY = getRandomFromRange(0, 360);
+
+    this->base_scale = getRandomFromRange(0.6, 1.2);
+
+    this->position_ = glm::vec2(base_x - 0.5, base_z);
+    this->unit_ = 1 * base_scale;
+
+    this->offset_ = offset_ * base_scale;
+    this->vector_ = glm::vec2(-vector_.x * base_scale * glm::cos(glm::radians(rotateY)), vector_.y * base_scale * glm::sin(glm::radians(rotateY)));
 }
