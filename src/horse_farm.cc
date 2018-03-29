@@ -246,10 +246,3 @@ void HorseFarm::AddHorses(unsigned number)
         horse_list_.push_back(horse);
     }
 }
-
-void HorseFarm::PutOnGround(Horse* horse){
-    horse->position_;
-    horse->width_;
-    horse->depth_;
-//ground
-}

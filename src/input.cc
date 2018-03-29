@@ -370,6 +370,7 @@ void Input::ProcessInput(GLfloat dt)
             {
                 Controller::final_on = false;
                 Controller::added = true;
+                //TODO reset memset(Horse::ground, 0, sizeof(Horse::ground));
             }
             else
             {

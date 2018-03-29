@@ -51,8 +51,12 @@ const GLfloat vertices[] =
     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
 };
 
+unsigned Horse::global_id_ = 0;
+std::tuple<int, int> Horse::ground[50][50];
 Horse::Horse()
 {
+    ++global_id_;
+    id_ = global_id_;
     //color = glm::vec4(getRandomFloat(), getRandomFloat(), getRandomFloat(), 1.0f);
 
     glGenVertexArrays(1, &this->quadVAO_);
@@ -112,27 +116,30 @@ void Horse::Draw(Shader& shader)
 
 void Horse::GenerateRandomHorse()
 {
-    if(getRandomBool())
+    do
     {
-        this->base_x = getRandomFromRange(20);
-    }
-    else
-    {
-        this->base_x = -getRandomFromRange(20);
-    }
-    if(getRandomBool())
-    {
-        this->base_z = getRandomFromRange(20);
-    }
-    else
-    {
-        this->base_z = -getRandomFromRange(20);
-    }
-    this->rotateY = getRandomFromRange(0, 360);
+        if(getRandomBool())
+        {
+            this->base_x = getRandomFromRange(18);
+        }
+        else
+        {
+            this->base_x = -getRandomFromRange(18);
+        }
+        if(getRandomBool())
+        {
+            this->base_z = getRandomFromRange(18);
+        }
+        else
+        {
+            this->base_z = -getRandomFromRange(18);
+        }
+        this->rotateY = getRandomFromRange(0, 360);
 
-    this->base_scale = getRandomFromRange(0.6, 1.2);
+        this->base_scale = getRandomFromRange(0.6, 1.2);
 
-    this->position_ = glm::vec2(base_x, base_z);
-    this->width_ = width_ * base_scale;
-    this->depth_ = depth_ * base_scale;
+        this->position_ = glm::vec2(base_x, base_z);
+        this->unit_ = 1 * base_scale;
+    }
+    while(this->CheckCollision());
 }

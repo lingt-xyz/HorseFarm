@@ -46,6 +46,5 @@ private:
     unsigned int depthMapFBO;
     unsigned int depthMap;
 
-    void PutOnGround(Horse* horse);
     void RenderScene(Shader &shader);
 };
