@@ -113,7 +113,7 @@ void HorseFarm::Render()
     {
         if(!Controller::added)
         {
-            this->AddHorses(2);
+            this->AddHorses(20);
             Controller::added = true;
         }
     }
@@ -258,18 +258,34 @@ void HorseFarm::AddHorses(unsigned number)
 
 bool HorseFarm::CheckCollisionByProjection(Horse* horse)
 {
+    //std::cout << "(" << horse->vector_.x << "," << horse->vector_.y << ")"<<std::endl;
+    //std::cout << "(" << horse->position_.x << "," << horse->position_.y << ")"<<std::endl;
+
     for(Horse* h : horse_list_){
-        h->vector_;
-        glm::vec2 position1 = h->position_;
         glm::vec2 position0 = horse->position_;
+        glm::vec2 position1 = h->position_;
+
         glm::vec2 projection = position1 - position0;
+        //std::cout << "pro:" << projection.x << " " << projection.y << std::endl;
 
-        float dotProduct0 = glm::dot(horse->vector_, projection);
+        float dotProduct0 = glm::abs(glm::dot(horse->vector_, projection));
         float scalarProjection0 = dotProduct0/glm::length(projection);
+        //std::cout << "pro0:" << scalarProjection0 << std::endl;
 
-        float dotProduct1 = glm::dot(h->vector_, projection);
+        float dotProduct1 = glm::abs(glm::dot(h->vector_, projection));
         float scalarProjection1 = dotProduct1/glm::length(projection);
-        if(scalarProjection0 + scalarProjection1 + horse->offset_ + h->offset_ < glm::distance(position0, position1)){
+        //std::cout << "pro1:" << scalarProjection1 << std::endl;
+        float distance0 = scalarProjection0 + scalarProjection1 + horse->offset_ + h->offset_;
+        //std::cout << "offset_: " << horse->offset_ << " " << h->offset_<< ", dis1:"<< distance0 << ", dis2:" << glm::distance(position0, position1) <<std::endl;
+        //std::cout << "pos: " << position0.x << "," << position0.y <<std::endl;
+        //std::cout << "----------------->(" << position0.y << "),\t"<< "(" << position1.y << ")"<<std::endl;
+        //std::cout << "(" << position0.x << "," << position0.y << "),\t"<< "(" << position1.x << "," << position1.y << ")"<<std::endl;
+        //std::cout << "(" << horse->vector_.x << "," << horse->vector_.y << "),\t"<< "(" << h->vector_.x << "," << h->vector_.y << ")"<<std::endl;
+        //std::cout << "offset_: " << horse->offset_ << "," << h->offset_<<std::endl;
+        //std::cout << "distance: "<< distance0 << "," << glm::distance(position0, position1) <<std::endl;
+        //std::cout << "dist: " << distance0 << std::endl;
+        float distance1 = glm::distance(position0, position1);
+        if(distance1 == 0 || distance0 > distance1){
             return true;
         }
 

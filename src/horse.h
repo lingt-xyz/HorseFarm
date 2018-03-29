@@ -58,6 +58,7 @@ class Horse
 public:
     static std::tuple<int, int> ground_[50][50];
     static unsigned global_id_;
+    static float offset;
 
     unsigned id_;
     glm::vec4 color;
@@ -65,7 +66,8 @@ public:
     float unit_ = 0.5f;
     glm::vec2 points[12];
 
-    float offset_ = 1.0f;
+    float offset_ = 10.0f;
+
     glm::vec2 vector_ = glm::vec2(-2.5, 0);
 
 

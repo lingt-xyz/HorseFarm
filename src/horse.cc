@@ -6,6 +6,7 @@
 
 unsigned Horse::global_id_ = 0;
 std::tuple<int, int> Horse::ground_[50][50];
+float Horse::offset = 1.0f;
 
 const GLfloat vertices[] =
 {
@@ -117,29 +118,15 @@ void Horse::Draw(Shader& shader)
 
 void Horse::GenerateRandomHorse()
 {
-    if(getRandomBool())
-    {
-        this->base_x = getRandomFromRange(18);
-    }
-    else
-    {
-        this->base_x = -getRandomFromRange(18);
-    }
-    if(getRandomBool())
-    {
-        this->base_z = getRandomFromRange(18);
-    }
-    else
-    {
-        this->base_z = -getRandomFromRange(18);
-    }
+    this->base_x = getRandomFromRange(-18, 18);
+    this->base_z = getRandomFromRange(-18, 18);
     this->rotateY = getRandomFromRange(0, 360);
 
     this->base_scale = getRandomFromRange(0.6, 1.2);
 
-    this->position_ = glm::vec2(base_x - 0.5, base_z);
+    this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
     this->unit_ = 1 * base_scale;
 
-    this->offset_ = offset_ * base_scale;
-    this->vector_ = glm::vec2(-vector_.x * base_scale * glm::cos(glm::radians(rotateY)), vector_.y * base_scale * glm::sin(glm::radians(rotateY)));
+    this->offset_ = offset * base_scale;
+    this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
 }
