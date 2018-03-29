@@ -113,7 +113,7 @@ void HorseFarm::Render()
     {
         if(!Controller::added)
         {
-            this->AddHorses(19);
+            this->AddHorses(20);
             Controller::added = true;
         }
     }
@@ -228,11 +228,17 @@ void HorseFarm::RenderScene(Shader &shader)
     glBindTexture(GL_TEXTURE_2D, bricksTexture);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthMap);
-
-    horse_->Draw(shader);
-    for (Horse* h : horse_list_)
+    if(!Controller::final_on)
     {
-        h->Draw(shader);
+        horse_->Draw(shader);
+    }
+    else
+    {
+
+        for (Horse* h : horse_list_)
+        {
+            h->Draw(shader);
+        }
     }
 }
 

@@ -56,8 +56,8 @@ struct HorseDimension
 class Horse
 {
 public:
-    static std::tuple<int, int> ground[50][50];
-
+    static std::tuple<int, int> ground_[50][50];
+    static unsigned global_id_;
     bool run_on = false;
 
     int tmp_step = 1;
@@ -207,7 +207,6 @@ public:
     }
 
 private:
-    static unsigned global_id_;
     unsigned id_;
     glm::vec4 color;
     glm::vec2 position_ = glm::vec2(0.0f, 0.0f);
@@ -219,7 +218,8 @@ private:
 
     HorseDimension horse_dimension_;
 
-    bool CheckCollision(){
+    bool CheckCollision()
+    {
 //      P9     P8     P7     P4     P5     P6
 //      ------------------------------------
 //      |      |      |      |      |      |
@@ -244,27 +244,65 @@ private:
         points[10] = points[9] - vector1 - vector1;
         points[11] = points[10] - vector1 - vector1;
 
+        /*
+        points[0] = position_ + vector1;
+        points[1] = points[0] + vector1;
+        points[2] = points[1] + vector1;
+        points[3] = points[2] + vector1;
+        points[4] = points[3] + vector1;
+        points[5] = points[4] + vector1;
+
+        points[6] = position_ - vector1;
+        points[7] = points[6] - vector1;
+        points[8] = points[7] - vector1;
+        points[9] = points[8] - vector1;
+        points[10] = points[9] - vector1;
+
+        points[11] = position_ + vector2;
+        points[12] = points[11] + vector1;
+        points[13] = points[12] + vector1;
+        points[14] = points[13] + vector1;
+        points[15] = points[14] + vector1;
+        points[16] = points[15] + vector1;
+
+        points[17] = position_ - vector2;
+        points[18] = points[17] + vector1;
+        points[19] = points[18] + vector1;
+        points[20] = points[19] + vector1;
+        points[21] = points[20] + vector1;
+        points[22] = points[21] + vector1;
+
+        points[23] = points[11] - vector1;
+        points[24] = points[23] - vector1;
+        points[25] = points[24] - vector1;
+        points[26] = points[25] - vector1;
+        points[27] = points[26] - vector1;
+
+        points[28] = points[17] - vector1;
+        points[29] = points[28] - vector1;
+        points[30] = points[29] - vector1;
+        points[31] = points[30] - vector1;
+        */
+
         // step2: check whether the corresponding axis has been occupied.
-        for(glm::vec2 vec2 : points){
+        for(glm::vec2 vec2 : points)
+        {
             vec2 = glm::vec2(glm::floor(vec2.x) + 25, glm::floor(vec2.y) + 25);
-            std::tuple<int, int> t = ground[int(vec2.x)][int(vec2.y)];
-            if(std::get<1>(t) == 1 &&  std::get<0>(t) != this->id_){
-                std::cout << "ground[" <<int(vec2.x) << "]["<< int(vec2.y) << "], (" << id_ << ":" << std::get<0>(t) << ")";
-                return true;
-            }
-            if(std::get<1>(t) == 1 && std::get<0>(t) != this->id_){
+            std::tuple<int, int> t = ground_[int(vec2.x)][int(vec2.y)];
+            if(std::get<1>(t) == 1 &&  std::get<0>(t) != this->id_)
+            {
+                //std::cout << int(vec2.x) << "\t"<< int(vec2.y) << "\t" << id_ << ":" << std::get<0>(t) << std::endl;
                 return true;
             }
         }
 
-        std::cout << std::endl;
         // step3: set this axis been occupied.
-        for(glm::vec2 vec2 : points){
+        for(glm::vec2 vec2 : points)
+        {
             vec2 = glm::vec2(glm::floor(vec2.x) + 25, glm::floor(vec2.y) + 25);
-            ground[int(vec2.x)][int(vec2.y)] = std::make_tuple(this->id_, 1);
-            std::cout << "ground[" <<int(vec2.x) << "]["<< int(vec2.y) << "], (" << id_ << ":" << "" << ")";
+            ground_[int(vec2.x)][int(vec2.y)] = std::make_tuple(this->id_, 1);
+            std::cout << int(vec2.x) << "\t"<< int(vec2.y) << "\t" << id_ << ":" << std::endl;
         }
-std::cout << std::endl;
         return false;
     }
 

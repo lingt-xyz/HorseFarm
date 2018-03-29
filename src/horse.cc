@@ -4,6 +4,8 @@
 #include "controller.h"
 #include "api/obj_loader.h"
 
+unsigned Horse::global_id_ = 0;
+std::tuple<int, int> Horse::ground_[50][50];
 
 const GLfloat vertices[] =
 {
@@ -51,8 +53,7 @@ const GLfloat vertices[] =
     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
 };
 
-unsigned Horse::global_id_ = 0;
-std::tuple<int, int> Horse::ground[50][50];
+
 Horse::Horse()
 {
     ++global_id_;
