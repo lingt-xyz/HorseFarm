@@ -61,7 +61,7 @@ void HorseFarm::Init()
     bricksTexture = ResourceManager::GetTexture("bricks").ID;
     grassTexture = ResourceManager::GetTexture("grass").ID;
 
-    text_->Load("fonts/FreeMono.ttf", 24);
+    text_->Load("fonts/FreeMonoBold.ttf", 24);
 
     // configure depth map FBO
     // -----------------------
@@ -99,7 +99,6 @@ void HorseFarm::Init()
 
 void HorseFarm::Render()
 {
-    //text_->RenderText("Press ENTER to start", 250.0f, this->height_ / 2, 1.0f);
     Shader shader_simple = ResourceManager::GetShader("simple");
     Shader shader_horse = ResourceManager::GetShader("horse");
     Shader shader_light = ResourceManager::GetShader("light");
@@ -112,7 +111,6 @@ void HorseFarm::Render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     Controller::UpdateController();
-
 
     if(Controller::final_on)
     {
@@ -164,6 +162,7 @@ void HorseFarm::Render()
     glViewport(0, 0, Window::width, Window::height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    text_->RenderText("Press ENTER to start", 10.0f, 10.0f, 1.0f);
     GLuint shader = ResourceManager::GetShader("shadow_mapping").ID;
     glUseProgram(shader);
 
@@ -210,6 +209,7 @@ void HorseFarm::Render()
     simpleShader.SetMatrix4("view", Controller::view);
     axis_->Draw(simpleShader);
     lamp_->Draw(simpleShader);
+
 }
 
 void HorseFarm::RenderScene(Shader &shader)

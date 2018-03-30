@@ -16,32 +16,6 @@ int main()
 {
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "HorseFarm");
 
-    glm::vec2 position_ = glm::vec2(0.0, 0.0);
-    float rotateY = 90.0;
-    float unit_ = 0.5f;
-    glm::vec2 points[12];
-    glm::vec2 vector1 = glm::vec2(glm::cos(glm::radians(rotateY)), -glm::sin(glm::radians(rotateY))) * unit_;
-    glm::vec2 vector2 = glm::vec2(glm::sin(glm::radians(rotateY)), glm::cos(glm::radians(rotateY))) * unit_;
-    points[0] = position_ + vector1 + vector2;
-    points[1] = points[0] + vector1 + vector1;
-    points[2] = points[1] + vector1 + vector1;
-    points[3] = position_ + vector1 - vector2;
-    points[4] = points[3] + vector1 + vector1;
-    points[5] = points[4] + vector1 + vector1;
-    points[6] = position_ - vector1 - vector2;
-    points[7] = points[6] - vector1 - vector1;
-    points[8] = points[7] - vector1 - vector1;
-    points[9] = position_ - vector1 + vector2;
-    points[10] = points[9] - vector1 - vector1;
-    points[11] = points[10] - vector1 - vector1;
-
-    for(glm::vec2 pos : points)
-    {
-        //std::cout << glm::floor(pos.x) << ":" << glm::floor(pos.y) << std::endl;
-    }
-
-    //return 0;
-
     // DeltaTime variables
     GLfloat deltaTime = 0.0f;
     GLfloat lastFrame = 0.0f;
