@@ -25,11 +25,12 @@ HorseFarm::HorseFarm(GLuint width, GLuint height)
 {
     this->width_ = width;
     this->height_ = height;
+    text_ = new TextRenderer(this->width_, this->height_);
 }
 
 HorseFarm::~HorseFarm()
 {
-    //delete this->text_;
+    delete this->text_;
 
     delete this->grid_;
     delete this->axis_;
@@ -59,6 +60,9 @@ void HorseFarm::Init()
     ResourceManager::LoadTexture("textures/bricks.jpg", GL_FALSE, "bricks");
     bricksTexture = ResourceManager::GetTexture("bricks").ID;
     grassTexture = ResourceManager::GetTexture("grass").ID;
+
+    text_->Load("fonts/FreeMono.ttf", 24);
+
     // configure depth map FBO
     // -----------------------
     glGenFramebuffers(1, &depthMapFBO);
@@ -95,6 +99,7 @@ void HorseFarm::Init()
 
 void HorseFarm::Render()
 {
+    //text_->RenderText("Press ENTER to start", 250.0f, this->height_ / 2, 1.0f);
     Shader shader_simple = ResourceManager::GetShader("simple");
     Shader shader_horse = ResourceManager::GetShader("horse");
     Shader shader_light = ResourceManager::GetShader("light");
