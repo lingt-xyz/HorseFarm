@@ -99,6 +99,7 @@ void Horse::Draw(Shader& shader)
 
     glBindVertexArray(this->quadVAO_);
 
+
     if(run_on) // let's run
     {
         run();

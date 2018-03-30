@@ -3,6 +3,7 @@
 #include <vector>
 #include <tuple>
 #include <iostream>
+#include <list>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -11,6 +12,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "helper.h"
 #include "api/shader.h"
 
 enum HorsePart
@@ -185,6 +187,70 @@ public:
             theta[Torso] = 2;
             break;
         }
+    }
+
+    bool CollisionDetection(std::list<Horse*> horse_list)
+    {
+        //std::cout << "(" << this->vector_.x << "," << this->vector_.y << ")"<<std::endl;
+        //std::cout << "(" << this->position_.x << "," << this->position_.y << ")"<<std::endl;
+
+        for(Horse* h : horse_list)
+        {
+            glm::vec2 position0 = this->position_;
+            glm::vec2 position1 = h->position_;
+
+            glm::vec2 projection = position1 - position0;
+            //std::cout << "pro:" << projection.x << " " << projection.y << std::endl;
+
+            float dotProduct0 = glm::abs(glm::dot(this->vector_, projection));
+            float scalarProjection0 = dotProduct0/glm::length(projection);
+            //std::cout << "pro0:" << scalarProjection0 << std::endl;
+
+            float dotProduct1 = glm::abs(glm::dot(h->vector_, projection));
+            float scalarProjection1 = dotProduct1/glm::length(projection);
+            //std::cout << "pro1:" << scalarProjection1 << std::endl;
+            float distance0 = scalarProjection0 + scalarProjection1 + this->offset_ + h->offset_;
+            //std::cout << "offset_: " << this->offset_ << " " << h->offset_<< ", dis1:"<< distance0 << ", dis2:" << glm::distance(position0, position1) <<std::endl;
+            //std::cout << "pos: " << position0.x << "," << position0.y <<std::endl;
+            //std::cout << "----------------->(" << position0.y << "),\t"<< "(" << position1.y << ")"<<std::endl;
+            //std::cout << "(" << position0.x << "," << position0.y << "),\t"<< "(" << position1.x << "," << position1.y << ")"<<std::endl;
+            //std::cout << "(" << this->vector_.x << "," << this->vector_.y << "),\t"<< "(" << h->vector_.x << "," << h->vector_.y << ")"<<std::endl;
+            //std::cout << "offset_: " << this->offset_ << "," << h->offset_<<std::endl;
+            //std::cout << "distance: "<< distance0 << "," << glm::distance(position0, position1) <<std::endl;
+            //std::cout << "dist: " << distance0 << std::endl;
+            float distance1 = glm::distance(position0, position1);
+            if(distance1 == 0 || distance0 > distance1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void Animation(std::list<Horse*> horse_list)
+    {
+        // walk
+        float originalBaseX = base_x;
+        float originalBaseZ = base_z;
+        do
+        {
+            rotateY = getRandomFromRange(0, 360);
+            base_x = originalBaseX - 0.1 * glm::cos(glm::radians(this->rotateY));
+            base_z = originalBaseX + 0.1 * glm::sin(glm::radians(this->rotateY));
+            //TODO
+            this->base_x = getRandomFromRange(-18, 18);
+            this->base_z = getRandomFromRange(-18, 18);
+            this->rotateY = getRandomFromRange(0, 360);
+
+            this->base_scale = getRandomFromRange(0.6, 1.2);
+
+            this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+            this->unit_ = 1 * base_scale;
+
+            this->offset_ = offset * base_scale;
+            this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+        }
+        while(CollisionDetection(horse_list));
     }
 
     void GenerateRandomHorse();
