@@ -131,3 +131,7 @@ void Horse::GenerateRandomHorse()
     this->offset_ = offset * base_scale;
     this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
 }
+
+void Horse::Animation(std::list<Horse*> horse_list){
+    this->move(horse_list, 0.05);
+}

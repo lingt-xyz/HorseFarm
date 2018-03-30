@@ -196,6 +196,10 @@ public:
 
         for(Horse* h : horse_list)
         {
+            if(h->id_ == this->id_)
+            {
+                continue;
+            }
             glm::vec2 position0 = this->position_;
             glm::vec2 position1 = h->position_;
 
@@ -227,31 +231,31 @@ public:
         return false;
     }
 
-    void Animation(std::list<Horse*> horse_list)
+    bool ReachBoundary()
+    {
+        return glm::abs(glm::abs(this->position_.x) - 25) < 2.5 * base_scale || glm::abs(glm::abs(this->position_.y) - 25) < 2.5 * base_scale;
+    }
+
+    void move(std::list<Horse*> horse_list, float length)
     {
         // walk
         float originalBaseX = base_x;
         float originalBaseZ = base_z;
-        do
+        base_x = originalBaseX - length * glm::cos(glm::radians(this->rotateY));
+        base_z = originalBaseZ + length * glm::sin(glm::radians(this->rotateY));
+        this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+
+        while(this->CollisionDetection(horse_list) || ReachBoundary())
         {
             rotateY = getRandomFromRange(0, 360);
-            base_x = originalBaseX - 0.1 * glm::cos(glm::radians(this->rotateY));
-            base_z = originalBaseX + 0.1 * glm::sin(glm::radians(this->rotateY));
-            //TODO
-            this->base_x = getRandomFromRange(-18, 18);
-            this->base_z = getRandomFromRange(-18, 18);
-            this->rotateY = getRandomFromRange(0, 360);
-
-            this->base_scale = getRandomFromRange(0.6, 1.2);
-
+            base_x = originalBaseX - length * glm::cos(glm::radians(this->rotateY));
+            base_z = originalBaseZ + length * glm::sin(glm::radians(this->rotateY));
             this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
-            this->unit_ = 1 * base_scale;
-
-            this->offset_ = offset * base_scale;
             this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
         }
-        while(CollisionDetection(horse_list));
     }
+
+    void Animation(std::list<Horse*> horse_list);
 
     void GenerateRandomHorse();
 
