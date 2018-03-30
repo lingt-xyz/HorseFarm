@@ -162,7 +162,7 @@ void HorseFarm::Render()
     glViewport(0, 0, Window::width, Window::height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    text_->RenderText("Press ENTER to start", 10.0f, 10.0f, 1.0f);
+    text_->RenderText("Horse Farm", 10.0f, 10.0f, 1.0f);
     GLuint shader = ResourceManager::GetShader("shadow_mapping").ID;
     glUseProgram(shader);
 
