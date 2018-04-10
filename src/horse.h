@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <tuple>
 #include <iostream>
@@ -97,6 +98,8 @@ public:
     float rotateX = 0.0;
     float rotateY = 0.0;
     float rotateZ = 0.0;
+
+    unsigned collision_horse_id_ = 0;
 
     GLfloat theta[11] =
     {
@@ -197,12 +200,12 @@ public:
         }
     }
 
-    bool CollisionDetection(std::list<Horse*> horse_list)
+    bool CollisionDetection(std::vector<Horse*> horse_list)
     {
         //std::cout << "(" << this->vector_.x << "," << this->vector_.y << ")"<<std::endl;
         //std::cout << "(" << this->position_.x << "," << this->position_.y << ")"<<std::endl;
 
-        for(Horse* h : horse_list)
+        for(auto& h : horse_list)
         {
             if(h->id_ == this->id_)
             {
@@ -210,7 +213,12 @@ public:
             }
             glm::vec2 position0 = this->position_;
             glm::vec2 position1 = h->position_;
-
+            float distance1 = glm::distance(position0, position1);
+            if(distance1 == 0)
+            {
+                collision_horse_id_ = h->id_;
+                return true;
+            }
             glm::vec2 projection = position1 - position0;
             //std::cout << "pro:" << projection.x << " " << projection.y << std::endl;
 
@@ -230,9 +238,10 @@ public:
             //std::cout << "offset_: " << this->offset_ << "," << h->offset_<<std::endl;
             //std::cout << "distance: "<< distance0 << "," << glm::distance(position0, position1) <<std::endl;
             //std::cout << "dist: " << distance0 << std::endl;
-            float distance1 = glm::distance(position0, position1);
-            if(distance1 == 0 || distance0 > distance1)
+
+            if(distance0 > distance1)
             {
+                collision_horse_id_ = h->id_;
                 return true;
             }
         }
@@ -247,7 +256,7 @@ public:
     // Move straight ahead for (random) steps, rotate horse right or left (randomly) by 15 degrees.
     float walkStartFrame;
     float walkEndFrame;
-    void BaseMove(std::list<Horse*> horseList, float stepLength)
+    void BaseMove(std::vector<Horse*> horseList, float stepLength)
     {
         float originalBaseX = base_x;
         float originalBaseZ = base_z;
@@ -256,7 +265,6 @@ public:
             base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
             base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
             this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
-            //std::cout << "walkStartFrame;" << walkStartFrame << std::endl;
             if(walkStartFrame >= walkEndFrame){
                 status_ = HorseStatus::status_stationary;// it's time to make a rotation
             }
@@ -273,15 +281,51 @@ public:
 
         while(this->CollisionDetection(horseList) || ReachBoundary())
         {
-            rotateY = getRandomFromRange(0, 360);
-            base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
-            base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
-            this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
-            this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+        // If the horse collides with another horse,
+        // then randomly decide to hold one horse stationary and only move the other horse.
+            if(ReachBoundary()){
+                std::cout << "ReachBoundary;" << std::endl;
+                rotateY = getRandomFromRange(0, 360);
+                base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+                base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+                this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+                this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+            }else{
+                //std::cout << "CollisionDetection:" << this->id_ << ":" << this->collision_horse_id_ << std::endl;
+                if(this->id_ <= this->collision_horse_id_){// the one with smaller id should make a decision
+                    if(getRandomBool()){// stop, wait the other horse to walk.
+                        this->status_ = HorseStatus::status_stationary;
+                    }else{// I would continue move, the other should stop
+                        rotateY = getRandomFromRange(0, 360);
+                        base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+                        base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+                        this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+                        this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+                    }
+                }else{// the other one should have made a decision
+                    HorseStatus tmpHorseStatus;
+                    for(auto& h : horseList)
+                    {
+                        if(h->id_ == this->collision_horse_id_){
+                            tmpHorseStatus = h->status_;
+                            break;
+                        }
+                    }
+                    if(tmpHorseStatus == HorseStatus::status_stationary){// I should walk
+                        rotateY = getRandomFromRange(0, 360);
+                        base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+                        base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+                        this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+                        this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+                    }else{
+                        this->status_ = HorseStatus::status_stationary;
+                    }
+                }
+            }
         }
     }
 
-    void ExtraMove(std::list<Horse*> horseList, float stepLength)
+    void ExtraMove(std::vector<Horse*> horseList, float stepLength)
     {
         // walk
         float originalBaseX = base_x;
@@ -300,9 +344,9 @@ public:
         }
     }
 
-    void BaseAnimation(std::list<Horse*> horseList);
+    void BaseAnimation(std::vector<Horse*> horseList);
 
-    void ExtraAnimation(std::list<Horse*> horseList);
+    void ExtraAnimation(std::vector<Horse*> horseList);
 
     void GenerateRandomHorse();
 

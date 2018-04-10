@@ -37,13 +37,11 @@ HorseFarm::~HorseFarm()
     delete this->lamp_;
     delete this->farm_;
     delete this->horse_;
-    horse_list_.remove_if([](Horse *theElement)
+    for (auto& h : horse_list_)
     {
-        delete theElement;
-        return true;
-    });
-
-    //while(!horse_list_.empty()) delete horse_list_.front(), horse_list_.pop_front();
+        delete h;
+    }
+    horse_list_.clear();
 }
 
 void HorseFarm::Init()
@@ -122,11 +120,11 @@ void HorseFarm::Render()
     }
     else
     {
-        horse_list_.remove_if([](Horse *theElement)
+        for (auto& h : horse_list_)
         {
-            delete theElement;
-            return true;
-        });
+            delete h;
+        }
+        horse_list_.clear();
     }
     // for shadow only
     glm::mat4 lightSpaceMatrix;
@@ -239,7 +237,7 @@ void HorseFarm::RenderScene(Shader &shader)
     // Repeat these in a loop.
     // If the horse collides with another horse,
     // then randomly decide to hold one horse stationary and only move the other horse.
-        for (Horse* h : horse_list_)
+        for (auto& h : horse_list_)
         {
             h->Draw(shader);
             h->BaseAnimation(horse_list_);
@@ -247,7 +245,7 @@ void HorseFarm::RenderScene(Shader &shader)
     }
     else if(Controller::final_extra)
     {
-        for (Horse* h : horse_list_)
+        for (auto& h : horse_list_)
         {
             h->Draw(shader);
             h->ExtraAnimation(horse_list_);

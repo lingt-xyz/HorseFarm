@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <list>
 #include <tuple>
@@ -22,7 +23,7 @@ public:
     Lamp* lamp_;
     Farm* farm_;
     Horse* horse_;
-    std::list<Horse*> horse_list_;
+    std::vector<Horse*> horse_list_;
 
     TextRenderer *text_;
     //std::vector<Horse> vector_horse_;
