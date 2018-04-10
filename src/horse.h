@@ -4,6 +4,7 @@
 #include <tuple>
 #include <iostream>
 #include <list>
+#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -19,7 +20,8 @@ enum HorseStatus{
     status_run,
     status_walk,
     status_jump,
-    status_stationary
+    status_stationary,
+    none
 };
 
 enum HorsePart
@@ -242,14 +244,32 @@ public:
         return glm::abs(glm::abs(this->position_.x) - 25) < 2.5 * base_scale || glm::abs(glm::abs(this->position_.y) - 25) < 2.5 * base_scale;
     }
 
+    // Move straight ahead for (random) steps, rotate horse right or left (randomly) by 15 degrees.
+    float walkStartFrame;
+    float walkEndFrame;
     void BaseMove(std::list<Horse*> horseList, float stepLength)
     {
-        // walk
         float originalBaseX = base_x;
         float originalBaseZ = base_z;
-        base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
-        base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
-        this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+        if(status_ == HorseStatus::status_walk){// walk
+            ++walkStartFrame;
+            base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+            base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+            this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+            //std::cout << "walkStartFrame;" << walkStartFrame << std::endl;
+            if(walkStartFrame >= walkEndFrame){
+                status_ = HorseStatus::status_stationary;// it's time to make a rotation
+            }
+        }else{// roate
+            rotateY += getRandomBool() ? 15.0f : -15.0f;
+            base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+            base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+            this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+            this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+            status_ = HorseStatus::status_walk;// set back to walk, so the horse continue to walk for a random time.
+            walkStartFrame = 0;
+            walkEndFrame = getRandomFromRange(100, 300);
+        }
 
         while(this->CollisionDetection(horseList) || ReachBoundary())
         {

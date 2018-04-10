@@ -137,5 +137,5 @@ void Horse::ExtraAnimation(std::list<Horse*> horseList){
 }
 
 void Horse::BaseAnimation(std::list<Horse*> horseList){
-    this->BaseMove(horseList, 0.03);
+    this->BaseMove(horseList, 0.05);
 }
