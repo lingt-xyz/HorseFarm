@@ -288,13 +288,13 @@ void Input::ProcessInput(GLfloat dt)
     else if(Input::Keys[GLFW_KEY_R] && !Input::KeysProcessed[GLFW_KEY_R])
     {
         Input::KeysProcessed[GLFW_KEY_R] = true;
-        if(Controller::horse_->run_on) // stop
+        if(Controller::horse_->status_ == HorseStatus::status_run) // stop
         {
-            Controller::horse_->run_on = false;
+            Controller::horse_->status_ = HorseStatus::status_stationary;
         }
         else
         {
-            Controller::horse_->run_on = true;
+            Controller::horse_->status_ = HorseStatus::status_run;
         }
     }
     else if(Input::Keys[GLFW_KEY_EQUAL] && Input::KeysMode[GLFW_KEY_EQUAL] == GLFW_MOD_SHIFT && !Input::KeysProcessed[GLFW_KEY_EQUAL])

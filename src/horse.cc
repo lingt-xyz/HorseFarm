@@ -100,7 +100,7 @@ void Horse::Draw(Shader& shader)
     glBindVertexArray(this->quadVAO_);
 
 
-    if(run_on) // let's run
+    if(status_ == HorseStatus::status_run) // let's run
     {
         run();
         ++tmp_time;

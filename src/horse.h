@@ -15,6 +15,13 @@
 #include "helper.h"
 #include "api/shader.h"
 
+enum HorseStatus{
+    status_run,
+    status_walk,
+    status_jump,
+    status_stationary
+};
+
 enum HorsePart
 {
     Torso = 0,
@@ -72,8 +79,7 @@ public:
 
     glm::vec2 vector_ = glm::vec2(-2.5, 0);
 
-
-    bool run_on = false;
+    HorseStatus status_ = HorseStatus::status_stationary;
 
     int tmp_step = 1;
     // to waste some frames to keep the horse run slowly
@@ -295,7 +301,7 @@ public:
         tmp_step = 1;
         tmp_time = 0;
         speedDivision = 10;
-        run_on = false;
+        status_ = HorseStatus::status_stationary;
 
         theta[Torso] = 0.0f;
         theta[Head] = 80.0f;
