@@ -40,6 +40,7 @@ public:
     static bool final_on;
     static bool added;
 
+    static bool final_extra;
     static Horse* horse_;
 
     Controller();

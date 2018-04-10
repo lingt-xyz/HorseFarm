@@ -236,26 +236,47 @@ public:
         return glm::abs(glm::abs(this->position_.x) - 25) < 2.5 * base_scale || glm::abs(glm::abs(this->position_.y) - 25) < 2.5 * base_scale;
     }
 
-    void move(std::list<Horse*> horse_list, float length)
+    void BaseMove(std::list<Horse*> horseList, float stepLength)
     {
         // walk
         float originalBaseX = base_x;
         float originalBaseZ = base_z;
-        base_x = originalBaseX - length * glm::cos(glm::radians(this->rotateY));
-        base_z = originalBaseZ + length * glm::sin(glm::radians(this->rotateY));
+        base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+        base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
         this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
 
-        while(this->CollisionDetection(horse_list) || ReachBoundary())
+        while(this->CollisionDetection(horseList) || ReachBoundary())
         {
             rotateY = getRandomFromRange(0, 360);
-            base_x = originalBaseX - length * glm::cos(glm::radians(this->rotateY));
-            base_z = originalBaseZ + length * glm::sin(glm::radians(this->rotateY));
+            base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+            base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
             this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
             this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
         }
     }
 
-    void Animation(std::list<Horse*> horse_list);
+    void ExtraMove(std::list<Horse*> horseList, float stepLength)
+    {
+        // walk
+        float originalBaseX = base_x;
+        float originalBaseZ = base_z;
+        base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+        base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+        this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+
+        while(this->CollisionDetection(horseList) || ReachBoundary())
+        {
+            rotateY = getRandomFromRange(0, 360);
+            base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+            base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+            this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+            this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+        }
+    }
+
+    void BaseAnimation(std::list<Horse*> horseList);
+
+    void ExtraAnimation(std::list<Horse*> horseList);
 
     void GenerateRandomHorse();
 

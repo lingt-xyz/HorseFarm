@@ -112,7 +112,7 @@ void HorseFarm::Render()
 
     Controller::UpdateController();
 
-    if(Controller::final_on)
+    if(Controller::final_on || Controller::final_extra)
     {
         if(!Controller::added)
         {
@@ -233,18 +233,29 @@ void HorseFarm::RenderScene(Shader &shader)
     glBindTexture(GL_TEXTURE_2D, bricksTexture);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthMap);
-    if(!Controller::final_on)
+    if(Controller::final_on)
     {
-        horse_->Draw(shader);
-    }
-    else
-    {
-
+    // Move straight ahead for (random) steps, rotate horse right or left (randomly) by 15 degrees.
+    // Repeat these in a loop.
+    // If the horse collides with another horse,
+    // then randomly decide to hold one horse stationary and only move the other horse.
         for (Horse* h : horse_list_)
         {
             h->Draw(shader);
-            h->Animation(horse_list_);
+            h->BaseAnimation(horse_list_);
         }
+    }
+    else if(Controller::final_extra)
+    {
+        for (Horse* h : horse_list_)
+        {
+            h->Draw(shader);
+            h->ExtraAnimation(horse_list_);
+        }
+    }
+    else
+    {
+        horse_->Draw(shader);
     }
 }
 

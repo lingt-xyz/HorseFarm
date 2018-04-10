@@ -361,20 +361,39 @@ void Input::ProcessInput(GLfloat dt)
     }
 
     // final project
-    else if(Input::Keys[GLFW_KEY_F] && !Input::KeysProcessed[GLFW_KEY_F])
+    else if(Input::Keys[GLFW_KEY_H] && !Input::KeysProcessed[GLFW_KEY_H])
     {
-        Input::KeysProcessed[GLFW_KEY_F] = true;
-        if(Controller::texture_on)
+        Input::KeysProcessed[GLFW_KEY_H] = true;
+        if(Controller::texture_on && !Controller::final_extra)
         {
             if(Controller::final_on)
             {
                 Controller::final_on = false;
-                Controller::added = true;
+                //Controller::added = true;
                 //TODO reset memset(Horse::ground, 0, sizeof(Horse::ground));
             }
             else
             {
                 Controller::final_on = true;
+                Controller::added = false;// need to add 20 hourse
+            }
+        }
+    }
+
+    // final project extra
+    else if(Input::Keys[GLFW_KEY_F] && !Input::KeysProcessed[GLFW_KEY_F])
+    {
+        Input::KeysProcessed[GLFW_KEY_F] = true;
+        if(Controller::texture_on && !Controller::final_on)
+        {
+            if(Controller::final_extra)
+            {
+                Controller::final_extra = false;
+                //Controller::added = true;
+            }
+            else
+            {
+                Controller::final_extra = true;
                 Controller::added = false;
             }
         }

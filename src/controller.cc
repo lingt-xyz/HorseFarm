@@ -24,6 +24,7 @@ bool Controller::texture_on = false;
 bool Controller::shadow_on = false;
 bool Controller::final_on = false;
 bool Controller::added = false;
+bool Controller::final_extra = false;
 
 Horse* Controller::horse_;
 
