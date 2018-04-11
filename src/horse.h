@@ -291,7 +291,7 @@ public:
                 this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
                 this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
             }else{
-                //std::cout << "CollisionDetection:" << this->id_ << ":" << this->collision_horse_id_ << std::endl;
+                std::cout << "CollisionDetection:" << h->id_ << ":" << this->collision_horse_id_ << std::endl;
                 if(this->id_ <= this->collision_horse_id_){// the one with smaller id should make a decision
                     if(getRandomBool()){// stop, wait the other horse to walk.
                         this->status_ = HorseStatus::status_stationary;
@@ -306,7 +306,7 @@ public:
                     HorseStatus tmpHorseStatus;
                     for(auto& h : horseList)
                     {
-                        if(h->id_ == this->collision_horse_id_){
+                        if(h->id_ == this->collision_horse_id_){// find the status of the horse with smaller id
                             tmpHorseStatus = h->status_;
                             break;
                         }
