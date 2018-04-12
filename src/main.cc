@@ -9,6 +9,15 @@
 #include "horse_farm.h"
 
 
+/*
+Code modified from th following resources:
+https://learnopengl.com/
+http://www.opengl-tutorial.org/
+https://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/
+https://github.com/tugbadogan/opengl-horse-modelling/
+*/
+
+
 const GLuint SCREEN_WIDTH = 800;
 const GLuint SCREEN_HEIGHT = 600;
 
