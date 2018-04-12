@@ -72,7 +72,7 @@ public:
     static std::tuple<int, int> ground_[50][50];
     static unsigned global_id_;
     static float offset;
-
+    unsigned texture_index_;
     unsigned id_;
     glm::vec4 color;
     glm::vec2 position_ = glm::vec2(-0.5f, 0.0f);

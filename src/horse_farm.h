@@ -4,7 +4,7 @@
 #include <vector>
 #include <list>
 #include <tuple>
-
+#include <vector>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -46,6 +46,8 @@ private:
     unsigned int grassTexture;
     unsigned int depthMapFBO;
     unsigned int depthMap;
+    std::vector<int> texture_vector_;
+    unsigned int texture_vector_size_ = 0;
 
     void RenderScene(Shader &shader);
 };

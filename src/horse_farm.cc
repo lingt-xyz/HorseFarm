@@ -56,8 +56,40 @@ void HorseFarm::Init()
     // -------------
     ResourceManager::LoadTexture("textures/grass.png", GL_FALSE, "grass");
     ResourceManager::LoadTexture("textures/bricks.jpg", GL_FALSE, "bricks");
+    ResourceManager::LoadTexture("textures/1.png", GL_FALSE, "png1");
+    ResourceManager::LoadTexture("textures/2.png", GL_FALSE, "png2");
+    ResourceManager::LoadTexture("textures/3.png", GL_FALSE, "png3");
+    ResourceManager::LoadTexture("textures/4.png", GL_FALSE, "png4");
+    ResourceManager::LoadTexture("textures/5.png", GL_FALSE, "png5");
+    ResourceManager::LoadTexture("textures/6.png", GL_FALSE, "png6");
+    ResourceManager::LoadTexture("textures/7.png", GL_FALSE, "png7");
+    ResourceManager::LoadTexture("textures/1.jpg", GL_FALSE, "jpg1");
+    ResourceManager::LoadTexture("textures/2.jpg", GL_FALSE, "jpg2");
+    ResourceManager::LoadTexture("textures/3.jpg", GL_FALSE, "jpg3");
+    ResourceManager::LoadTexture("textures/4.jpg", GL_FALSE, "jpg4");
+    ResourceManager::LoadTexture("textures/5.jpg", GL_FALSE, "jpg5");
+    ResourceManager::LoadTexture("textures/6.jpg", GL_FALSE, "jpg6");
+    ResourceManager::LoadTexture("textures/7.jpg", GL_FALSE, "jpg7");
+
     bricksTexture = ResourceManager::GetTexture("bricks").ID;
     grassTexture = ResourceManager::GetTexture("grass").ID;
+
+    texture_vector_.push_back(ResourceManager::GetTexture("png1").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("png2").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("png3").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("png4").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("png5").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("png6").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("png7").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("jpg1").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("jpg2").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("jpg3").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("jpg4").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("jpg5").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("jpg6").ID);
+    texture_vector_.push_back(ResourceManager::GetTexture("jpg7").ID);
+
+    texture_vector_size_ = texture_vector_.size();
 
     text_->Load("fonts/FreeMonoBold.ttf", 24);
 
@@ -212,11 +244,11 @@ void HorseFarm::Render()
 
 void HorseFarm::RenderScene(Shader &shader)
 {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, grassTexture);
+
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthMap);
-
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, grassTexture);
 
     if(!Controller::texture_on)
     {
@@ -227,16 +259,16 @@ void HorseFarm::RenderScene(Shader &shader)
         farm_->Draw(shader);
     }
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, bricksTexture);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthMap);
+    glActiveTexture(GL_TEXTURE0);
     if(Controller::final_on)
     {
     // Move straight ahead for (random) steps, rotate horse right or left (randomly) by 15 degrees.
     // Repeat these in a loop.
     // If the horse collides with another horse,
     // then randomly decide to hold one horse stationary and only move the other horse.
+        glBindTexture(GL_TEXTURE_2D, bricksTexture);
         for (auto& h : horse_list_)
         {
             h->Draw(shader);
@@ -247,12 +279,14 @@ void HorseFarm::RenderScene(Shader &shader)
     {
         for (auto& h : horse_list_)
         {
+            glBindTexture(GL_TEXTURE_2D, texture_vector_[h->texture_index_]);
             h->Draw(shader);
             h->ExtraAnimation(horse_list_);
         }
     }
     else
     {
+        glBindTexture(GL_TEXTURE_2D, bricksTexture);
         horse_->Draw(shader);
     }
 }
@@ -262,6 +296,7 @@ void HorseFarm::AddHorses(unsigned number)
     for(int i=0; i<number; i++)
     {
         Horse* horse = new Horse();
+        horse->texture_index_ = getRandomFromRange(0, texture_vector_size_-1);
         horse->status_ = HorseStatus::status_walk;
         do
         {
