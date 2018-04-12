@@ -80,6 +80,8 @@
 		<Unit filename="src/lamp.cc" />
 		<Unit filename="src/lamp.h" />
 		<Unit filename="src/main.cc" />
+		<Unit filename="src/skybox.cc" />
+		<Unit filename="src/skybox.h" />
 		<Unit filename="src/window.cc" />
 		<Unit filename="src/window.h" />
 		<Extensions>
