@@ -271,6 +271,7 @@ void HorseFarm::RenderScene(Shader &shader)
         glBindTexture(GL_TEXTURE_2D, bricksTexture);
         for (auto& h : horse_list_)
         {
+            h->speedDivision = 10;
             h->Draw(shader);
             h->BaseAnimation(horse_list_);
         }
@@ -297,6 +298,7 @@ void HorseFarm::AddHorses(unsigned number)
     {
         Horse* horse = new Horse();
         horse->texture_index_ = getRandomFromRange(0, texture_vector_size_-1);
+        horse->speedDivision = getRandomFromRange(2, 20);
         horse->status_ = HorseStatus::status_walk;
         do
         {
