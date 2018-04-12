@@ -110,6 +110,16 @@ void Horse::Draw(Shader& shader)
         {
             tmp_step = 1;
         }
+    }else if(status_ == HorseStatus::status_walk) // let's walk
+    {
+        run();
+        ++tmp_time;
+        tmp_time %= (speedDivision+1);
+        tmp_step += (tmp_time / speedDivision);
+        if(tmp_step > 6)
+        {
+            tmp_step = 1;
+        }
     }
 
     this->BuildModel();

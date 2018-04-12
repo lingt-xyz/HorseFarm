@@ -22,6 +22,7 @@ enum HorseStatus{
     status_walk,
     status_jump,
     status_stationary,
+    status_rotate,
     none
 };
 
@@ -254,21 +255,23 @@ public:
     }
 
     // Move straight ahead for (random) steps, rotate horse right or left (randomly) by 15 degrees.
-    float walkStartFrame;
-    float walkEndFrame;
+    float walkStartFrame = 0.0f;
+    float walkEndFrame = getRandomFromRange(100, 300);
     void BaseMove(std::vector<Horse*> horseList, float stepLength)
     {
         float originalBaseX = base_x;
         float originalBaseZ = base_z;
-        if(status_ == HorseStatus::status_walk){// walk
+        if(status_ == HorseStatus::status_stationary){
+            return;
+        }else if(status_ == HorseStatus::status_walk){// walk
             ++walkStartFrame;
             base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
             base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
             this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
             if(walkStartFrame >= walkEndFrame){
-                status_ = HorseStatus::status_stationary;// it's time to make a rotation
+                status_ = HorseStatus::status_rotate;// it's time to make a rotation
             }
-        }else{// roate
+        }else if(status_ == HorseStatus::status_rotate){// roate
             rotateY += getRandomBool() ? 15.0f : -15.0f;
             base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
             base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
@@ -291,10 +294,41 @@ public:
                 this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
                 this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
             }else{
-                std::cout << "CollisionDetection:" << h->id_ << ":" << this->collision_horse_id_ << std::endl;
+                if(getRandomBool()){// stop, wait the other horse to walk.
+                    this->status_ = HorseStatus::status_stationary;
+                    this->ResetTheta();
+                    HorseStatus tmpHorseStatus;
+                    for(auto& h : horseList)
+                    {
+                        if(h->id_ == this->collision_horse_id_){// find the status of the horse with smaller id
+                            h->status_ = HorseStatus::status_walk;
+                            break;
+                        }
+                    }
+                    break;
+                }else{
+                    for(auto& h : horseList)
+                    {
+                        if(h->id_ == this->collision_horse_id_){// find the status of the horse with smaller id
+                            h->status_ = HorseStatus::status_stationary;
+                            h->ResetTheta();
+                            break;
+                        }
+                    }
+                    this->status_ = HorseStatus::status_walk;
+                    rotateY = getRandomFromRange(0, 360);
+                    base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+                    base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+                    this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+                    this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+                }
+
+                /*
                 if(this->id_ <= this->collision_horse_id_){// the one with smaller id should make a decision
                     if(getRandomBool()){// stop, wait the other horse to walk.
+                        std::cout << "CollisionDetection:" << this->id_ << ": -------------------->stop" << std::endl;
                         this->status_ = HorseStatus::status_stationary;
+                        break;
                     }else{// I would continue move, the other should stop
                         rotateY = getRandomFromRange(0, 360);
                         base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
@@ -311,36 +345,92 @@ public:
                             break;
                         }
                     }
+                    std::cout << "CollisionDetection:" << this->id_ << ":" << this->collision_horse_id_ << std::endl;
                     if(tmpHorseStatus == HorseStatus::status_stationary){// I should walk
+                        this->status_ = HorseStatus::status_walk;
                         rotateY = getRandomFromRange(0, 360);
                         base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
                         base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
                         this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
                         this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
                     }else{
+                        std::cout << "CollisionDetection:" << this->id_ << ": stop" << std::endl;
                         this->status_ = HorseStatus::status_stationary;
+                        break;
                     }
-                }
+                }*/
             }
         }
     }
 
+    float ex_walkStartFrame = 0.0f;
+    float ex_walkEndFrame = getRandomFromRange(100, 300);
     void ExtraMove(std::vector<Horse*> horseList, float stepLength)
     {
-        // walk
         float originalBaseX = base_x;
         float originalBaseZ = base_z;
-        base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
-        base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
-        this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
-
-        while(this->CollisionDetection(horseList) || ReachBoundary())
-        {
-            rotateY = getRandomFromRange(0, 360);
+        if(status_ == HorseStatus::status_stationary){
+            return;
+        }else if(status_ == HorseStatus::status_walk){// walk
+            ++walkStartFrame;
+            base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+            base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+            this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+            if(walkStartFrame >= walkEndFrame){
+                status_ = HorseStatus::status_rotate;// it's time to make a rotation
+            }
+        }else if(status_ == HorseStatus::status_rotate){// roate
+            rotateY += getRandomBool() ? 15.0f : -15.0f;
             base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
             base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
             this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
             this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+            status_ = HorseStatus::status_walk;// set back to walk, so the horse continue to walk for a random time.
+            walkStartFrame = 0;
+            walkEndFrame = getRandomFromRange(100, 300);
+        }
+
+        while(this->CollisionDetection(horseList) || ReachBoundary())
+        {
+        // If the horse collides with another horse,
+        // then randomly decide to hold one horse stationary and only move the other horse.
+            if(ReachBoundary()){
+                std::cout << "ReachBoundary;" << std::endl;
+                rotateY = getRandomFromRange(0, 360);
+                base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+                base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+                this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+                this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+            }else{
+                if(getRandomBool()){// stop, wait the other horse to walk.
+                    this->status_ = HorseStatus::status_stationary;
+                    this->ResetTheta();
+                    HorseStatus tmpHorseStatus;
+                    for(auto& h : horseList)
+                    {
+                        if(h->id_ == this->collision_horse_id_){// find the status of the horse with smaller id
+                            h->status_ = HorseStatus::status_walk;
+                            break;
+                        }
+                    }
+                    break;
+                }else{
+                    for(auto& h : horseList)
+                    {
+                        if(h->id_ == this->collision_horse_id_){// find the status of the horse with smaller id
+                            h->status_ = HorseStatus::status_stationary;
+                            h->ResetTheta();
+                            break;
+                        }
+                    }
+                    this->status_ = HorseStatus::status_walk;
+                    rotateY = getRandomFromRange(0, 360);
+                    base_x = originalBaseX - stepLength * glm::cos(glm::radians(this->rotateY));
+                    base_z = originalBaseZ + stepLength * glm::sin(glm::radians(this->rotateY));
+                    this->position_ = glm::vec2(base_x * base_scale - 0.5, base_z * base_scale);
+                    this->vector_ = glm::vec2(-2.5 * base_scale * glm::cos(glm::radians(rotateY)), 2.5 * base_scale * glm::sin(glm::radians(rotateY)));
+                }
+            }
         }
     }
 
@@ -367,6 +457,21 @@ public:
         speedDivision = 10;
         status_ = HorseStatus::status_stationary;
 
+        theta[Torso] = 0.0f;
+        theta[Head] = 80.0f;
+        theta[LeftUpperArm] = 190.0f;
+        theta[LeftLowerArm] = -10.0f;
+        theta[RightUpperArm] = 190.0f;
+        theta[RightLowerArm] = -10.0f;
+        theta[LeftUpperLeg] = 180.0f;
+        theta[LeftLowerLeg] = 0.0f;
+        theta[RightUpperLeg] = 180.0f;
+        theta[RightLowerLeg] = 0.0f;
+        theta[Neck] = 45.0f;
+    }
+
+    void ResetTheta()
+    {
         theta[Torso] = 0.0f;
         theta[Head] = 80.0f;
         theta[LeftUpperArm] = 190.0f;

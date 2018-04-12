@@ -114,7 +114,7 @@ void HorseFarm::Render()
     {
         if(!Controller::added)
         {
-            this->AddHorses(20);
+            this->AddHorses(10);
             Controller::added = true;
         }
     }
@@ -262,6 +262,7 @@ void HorseFarm::AddHorses(unsigned number)
     for(int i=0; i<number; i++)
     {
         Horse* horse = new Horse();
+        horse->status_ = HorseStatus::status_walk;
         do
         {
             horse->GenerateRandomHorse();
