@@ -14,7 +14,7 @@
 #include "lamp.h"
 #include "farm.h"
 #include "horse.h"
-
+#include "skybox.h"
 class HorseFarm
 {
 public:
@@ -26,6 +26,8 @@ public:
     std::vector<Horse*> horse_list_;
 
     TextRenderer *text_;
+
+    Skybox* skybox_;
     //std::vector<Horse> vector_horse_;
 
     // Constructor/Destructor

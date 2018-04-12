@@ -37,6 +37,7 @@ HorseFarm::~HorseFarm()
     delete this->lamp_;
     delete this->farm_;
     delete this->horse_;
+    delete this->skybox_;
     for (auto& h : horse_list_)
     {
         delete h;
@@ -51,6 +52,7 @@ void HorseFarm::Init()
     ResourceManager::LoadShader("shaders/shadow_mapping.vs", "shaders/shadow_mapping.fs", nullptr, "shadow_mapping");
     ResourceManager::LoadShader("shaders/shadow_mapping_depth.vs", "shaders/shadow_mapping_depth.fs", nullptr, "shadow_mapping_depth");
     ResourceManager::LoadShader("shaders/simple.vs", "shaders/simple.fs", nullptr, "simple");
+    ResourceManager::LoadShader("shaders/skybox.vs", "shaders/skybox.fs", nullptr, "skybox");
 
     // load textures
     // -------------
@@ -96,22 +98,27 @@ void HorseFarm::Init()
     // configure depth map FBO
     // -----------------------
     glGenFramebuffers(1, &depthMapFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
     // create depth texture
     // unsigned int depthMap;
     glGenTextures(1, &depthMap);
     glBindTexture(GL_TEXTURE_2D, depthMap);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
     float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     // attach depth texture as FBO's depth buffer
-    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
     glDrawBuffer(GL_NONE);
-    glReadBuffer(GL_NONE);
+    //glReadBuffer(GL_NONE);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     Shader shader_shadow_mapping = ResourceManager::GetShader("shadow_mapping");
@@ -124,6 +131,7 @@ void HorseFarm::Init()
     this->lamp_ = new Lamp();
     this->farm_ = new Farm();
     this->horse_ = new Horse();
+    this->skybox_ = new Skybox();
     Controller::horse_ = horse_;
 }
 
@@ -239,6 +247,11 @@ void HorseFarm::Render()
     simpleShader.SetMatrix4("view", Controller::view);
     axis_->Draw(simpleShader);
     lamp_->Draw(simpleShader);
+
+    Shader skyboxShader = ResourceManager::GetShader("skybox");
+    skyboxShader.SetMatrix4("projection", Controller::projection);
+    skyboxShader.SetMatrix4("view", Controller::view);
+    //skybox_->Draw(skyboxShader);
 
 }
 

@@ -1,3 +1,9 @@
+Code modified from th following resources:
+https://learnopengl.com/
+http://www.opengl-tutorial.org/
+https://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/
+https://github.com/tugbadogan/opengl-horse-modelling/
+
 Implementation Specifications
 ---------------------------------------
 * Creates a 100x100 square grid (ground surface) in the XZ plane centred at the origin.
@@ -37,6 +43,7 @@ model.
   * Render the scene with shadows using two pass shadow algorithm (Key B).
   * Rotate joint 0 by 5 degrees (Key_0 clockwise and the corresponding Shift + Key_0 for counterclockwise). Similarly for other numbered joints, that is Key_1 for joint 1, Key 2 for joint 2, etc.
   * Make the horse complete a run cycle (Key R).
+  * Create a horse farm (Key H).
 
 Submission
 ---------------------------
